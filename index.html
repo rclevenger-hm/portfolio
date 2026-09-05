@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roger Clevenger — Principal Site Reliability Engineer</title>
+<meta name="description" content="Principal SRE / DevOps portfolio focused on reliability engineering, cloud infrastructure, observability, CI/CD, safe automation, and systems architecture.">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Roger Clevenger — Principal Site Reliability Engineer">
+<meta property="og:description" content="Engineering evidence in reliability, infrastructure, observability, automation, and operational systems design.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer","url":"https://rclevenger-hm.github.io/portfolio/","sameAs":["https://github.com/rclevenger-hm"]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <a class="mark" href="#top"><span class="dot"></span>RC / SRE</a>
+  <nav aria-label="Primary">
+    <a href="#evidence">Evidence</a>
+    <a href="#systems">Systems map</a>
+    <a href="#principles">Operating model</a>
+    <a href="#stack">Stack</a>
+  </nav>
+</header>
+<main id="main">
+<section id="top" class="hero shell">
+  <div>
+    <p class="eyebrow">Principal Site Reliability Engineer</p>
+    <h1>I build systems that are easier to operate than they are to misunderstand.</h1>
+    <p class="lede">Reliability engineering, cloud infrastructure, observability, CI/CD, and operational automation designed around failure modes, safe defaults, and clear ownership.</p>
+    <div class="actions">
+      <a class="button primary" href="#evidence">Inspect engineering evidence</a>
+      <a class="button" href="https://github.com/rclevenger-hm">GitHub</a>
+      <button class="button" type="button" onclick="window.print()">Print / save résumé</button>
+    </div>
+  </div>
+  <aside class="control" aria-label="Engineering operating summary">
+    <div class="control-head"><span>CONTROL PLANE</span><span class="healthy">● NOMINAL</span></div>
+    <dl>
+      <div><dt>Primary mode</dt><dd>Reliability & operations</dd></div>
+      <div><dt>Change model</dt><dd>Reviewable automation</dd></div>
+      <div><dt>Failure posture</dt><dd>Observable & recoverable</dd></div>
+      <div><dt>Design bias</dt><dd>Safe defaults</dd></div>
+      <div><dt>Documentation</dt><dd>Part of the system</dd></div>
+    </dl>
+  </aside>
+</section>
+
+<section id="evidence" class="section shell">
+  <p class="eyebrow">Selected engineering evidence</p>
+  <h2>Projects described by constraints, safeguards, and operating behavior.</h2>
+  <div class="grid">
+    <article>
+      <small>LIVE SYSTEM / CI/CD</small>
+      <h3>Sports Gamecast</h3>
+      <p>Multi-sport live Gamecast built as a static browser application with deterministic browser tests, deployment gates, favorites, radio discovery, and defensive handling of uncertain upstream data.</p>
+      <div class="chips"><span>Playwright</span><span>GitHub Pages</span><span>browser runtime</span></div>
+      <a href="https://github.com/rclevenger-hm/sports-gamecast">Repository →</a>
+    </article>
+    <article>
+      <small>SAFE AUTOMATION / OCI</small>
+      <h3>OCI Resource Cleanup</h3>
+      <p>Cloud cleanup automation constrained by dry-run defaults, explicit eligibility/protection policy, bounded actions, reversible stop behavior, and structured reports.</p>
+      <div class="chips"><span>blast radius</span><span>OCI</span><span>policy</span></div>
+      <a href="https://github.com/rclevenger-hm/oci-automated-resource-cleanup">Repository →</a>
+    </article>
+    <article>
+      <small>SERVERLESS / RECOVERY</small>
+      <h3>Identity Async Pipeline</h3>
+      <p>AWS serverless intake flow using queue boundaries, persisted state, a dead-letter path, API throttling, and Terraform-managed infrastructure.</p>
+      <div class="chips"><span>Lambda</span><span>SQS + DLQ</span><span>Terraform</span></div>
+      <a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda">Repository →</a>
+    </article>
+    <article>
+      <small>DISTRIBUTED SYSTEMS</small>
+      <h3>Kafka on OCI</h3>
+      <p>Reference architecture treating quorum, private networking, capacity, observability, and recovery as one distributed-systems reliability envelope.</p>
+      <div class="chips"><span>KRaft</span><span>capacity</span><span>recovery</span></div>
+      <a href="https://github.com/rclevenger-hm/kafka-oci-deployment">Repository →</a>
+    </article>
+  </div>
+</section>
+
+<section id="systems" class="section shell">
+  <p class="eyebrow">Systems map</p>
+  <h2>Different projects, recurring reliability decisions.</h2>
+  <p class="intro">The common thread is where control is placed: before destructive action, at asynchronous boundaries, around uncertain dependencies, and in the feedback loop after a failure.</p>
+  <div class="system-map" role="img" aria-label="Systems map connecting public projects to recurring SRE controls">
+    <article><strong>Uncertain dependency</strong><span>Sports data feed</span><em>defensive parsing</em><em>test before deploy</em></article>
+    <div class="map-arrow" aria-hidden="true">→</div>
+    <article class="center"><strong>Operating controls</strong><span>bounded change</span><span>observable state</span><span>explicit failure path</span><span>reviewable delivery</span></article>
+    <div class="map-arrow" aria-hidden="true">←</div>
+    <article><strong>Cloud automation</strong><span>OCI cleanup policy</span><em>dry-run default</em><em>action cap</em></article>
+
+    <article><strong>Async workload</strong><span>SQS worker queue</span><em>DLQ boundary</em><em>persisted state</em></article>
+    <div class="map-arrow" aria-hidden="true">→</div>
+    <article class="center"><strong>Recoverability</strong><span>know what happened</span><span>know what to retry</span><span>know what not to automate</span></article>
+    <div class="map-arrow" aria-hidden="true">←</div>
+    <article><strong>Distributed system</strong><span>Kafka / KRaft</span><em>quorum awareness</em><em>recovery headroom</em></article>
+  </div>
+</section>
+
+<section id="principles" class="section shell">
+  <p class="eyebrow">Operating model</p>
+  <h2>What I optimize for when systems meet real operating conditions.</h2>
+  <div class="principles">
+    <article><b>01</b><h3>Make failure legible</h3><p>Instrumentation and runbooks should make the next action clearer, not merely create more telemetry.</p></article>
+    <article><b>02</b><h3>Prefer reversible change</h3><p>Dry-runs, staged rollout, bounded actions, and review paths reduce the cost of being wrong.</p></article>
+    <article><b>03</b><h3>Design for ownership transfer</h3><p>A system is stronger when another engineer can operate and extend it without tribal knowledge.</p></article>
+    <article><b>04</b><h3>Separate fact from aspiration</h3><p>Implemented behavior, planned work, and production-readiness claims should remain visibly distinct.</p></article>
+  </div>
+</section>
+
+<section id="stack" class="section shell">
+  <p class="eyebrow">Technical profile</p>
+  <h2>Capabilities expressed as operating domains.</h2>
+  <div class="caps">
+    <div><strong>Cloud & infrastructure</strong><span>AWS · OCI · Terraform · networking · compute · storage · identity</span></div>
+    <div><strong>Reliability</strong><span>SLO thinking · incident response · failure analysis · recovery · capacity</span></div>
+    <div><strong>Delivery</strong><span>GitHub Actions · Jenkins · Docker · Packer · Ansible · release engineering</span></div>
+    <div><strong>Observability</strong><span>Datadog · Grafana · CloudWatch · metrics · logs · actionable alerting</span></div>
+    <div><strong>Distributed/data systems</strong><span>Kafka · Hadoop · Databricks · Snowflake · OpenSearch</span></div>
+    <div><strong>Engineering systems</strong><span>Python · JavaScript/TypeScript · APIs · automation · operational tooling</span></div>
+  </div>
+</section>
+</main>
+<footer class="shell footer"><span>Roger Clevenger · Principal Site Reliability Engineer</span><span>Static, dependency-light GitHub Pages portfolio.</span></footer>
+</body></html>
