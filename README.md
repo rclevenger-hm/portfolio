@@ -1,5 +1,23 @@
-# Portfolio
+# Roger Clevenger — Principal SRE Portfolio
 
-Principal SRE / DevOps engineering portfolio for Roger Clevenger.
+A dependency-light GitHub Pages portfolio focused on inspectable engineering evidence rather than résumé-template styling.
 
-The site itself is developed through reviewable pull requests and published with GitHub Pages.
+## Local preview
+
+```bash
+python -m http.server 8000
+```
+
+Open `http://localhost:8000`.
+
+## Validation
+
+```bash
+node scripts/validate.mjs
+```
+
+The site validates required accessibility hooks and a small core HTML/CSS performance budget.
+
+## Deployment
+
+GitHub Actions validates pull requests and publishes `main` to GitHub Pages after merge.
