@@ -21,6 +21,8 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/validate.mjs
+      - run: node --check analytics-worker/index.js
+      - run: node --input-type=module -e "import('./analytics-worker/index.js').then(m=>{if(m.attentionScore({uniqueViews:100,stars:2,watchers:1,forks:1,uniqueClones:5})!==170)process.exit(1);if(m.eligibleRepo({fork:true,archived:false,private:false}))process.exit(1);console.log('analytics logic checks passed')})"
   deploy:
     if: github.event_name != 'pull_request'
     needs: validate
@@ -33,8 +35,22 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Stage public site only
+        env:
+          ANALYTICS_API_BASE: ${{ vars.ANALYTICS_API_BASE }}
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'analytics-worker' \
+            --exclude 'scripts' \
+            --exclude 'README.md' \
+            ./ _site/
+          node -e 'const fs=require("fs");const p="_site/admin/github/index.html";const s=fs.readFileSync(p,"utf8");fs.writeFileSync(p,s.replace("__ANALYTICS_API_BASE__",process.env.ANALYTICS_API_BASE||""));'
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
