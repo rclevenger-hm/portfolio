@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OCI Ephemeral Resource Janitor — Reliability Case Study</title>
+<meta name="description" content="A principal-level SRE case study on safety-first OCI lifecycle automation: opt-in policy, fail-closed parsing, bounded blast radius, two-phase termination, and auditable decisions.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/">
+<link rel="stylesheet" href="../case-study.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"OCI Ephemeral Resource Janitor — Reliability Case Study","author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},"about":["Oracle Cloud Infrastructure","Site Reliability Engineering","Safe Automation","Blast Radius","Infrastructure Lifecycle Policy"],"url":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to case study</a>
+<header class="case-nav"><a href="../../">RC / Portfolio</a><nav><a href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Repository</a></nav></header>
+<main id="main">
+<section class="case-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Reliability case study · OCI · safe automation</p>
+      <h1>Automating resource cleanup without automating a bad day.</h1>
+      <p class="lede">OCI Ephemeral Resource Janitor enforces lifecycle policy for infrastructure that is explicitly supposed to expire. The engineering problem is not deletion; it is proving that every destructive action is intentional, bounded, explainable, and recoverable.</p>
+    </div>
+    <aside class="brief">
+      <span>System intent</span><strong>Lifecycle enforcement for ephemeral OCI Compute</strong>
+      <span>Default mutation</span><strong>Stop, not terminate</strong>
+      <span>Default mode</span><strong>Dry-run</strong>
+      <span>Blast-radius cap</span><strong>10 resources / run</strong>
+      <span>Failure posture</span><strong>Malformed policy fails closed</strong>
+    </aside>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">The operating problem</p><h2>“Old” is not the same thing as “safe to delete.”</h2></div>
+    <div class="prose"><p>Temporary infrastructure accumulates: developer sandboxes, CI workers, QA machines, demos, experiments, and troubleshooting hosts. A naive cleanup script can reduce waste while introducing a larger operational risk: it infers intent from age and turns one bad assumption into destructive change.</p><p>The janitor therefore answers a narrower question: <strong>which explicitly managed temporary resources have expired, and what lifecycle action is permitted by policy?</strong></p><p class="boundary"><strong>Boundary:</strong> this is not an idle-resource detector or general OCI cost optimizer. CPU, network, and utilization signals are not used to guess whether an unmanaged resource is safe to remove.</p></div>
+  </div>
+</section>
+
+<section class="section ink">
+  <div class="wrap">
+    <p class="eyebrow">Safety architecture</p>
+    <h2>Destructive automation earns permission in layers.</h2>
+    <div class="guardrail-flow" aria-label="Safety decision flow">
+      <article><span>01</span><h3>Explicit ownership</h3><p><code>JanitorManaged=true</code> is mandatory. Unmanaged resources are outside the system's authority.</p></article>
+      <article><span>02</span><h3>Valid lifecycle</h3><p>Expiration comes from an absolute deadline, per-resource TTL, or configured global TTL. Invalid values fail closed.</p></article>
+      <article><span>03</span><h3>Protection check</h3><p><code>DoNotCleanup=true</code> overrides age and protects the resource from action.</p></article>
+      <article><span>04</span><h3>Bounded action</h3><p>Dry-run is default and only a capped number of eligible resources can be selected in one run.</p></article>
+      <article><span>05</span><h3>Second interlock</h3><p>Live termination requires an explicit action plus a separate <code>allow_terminate</code> control.</p></article>
+      <article><span>06</span><h3>Two-phase delete</h3><p>Termination normally requires the instance to have already been stopped on an earlier run.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap">
+    <header class="section-head"><div><p class="eyebrow dark">Decision model</p><h2>Policy before mutation.</h2></div><p>Each evaluated instance ends with an explicit reason, making the dry-run output useful as an audit record rather than a vague “would delete” log.</p></header>
+    <div class="decision-diagram" role="img" aria-label="Janitor decision path from managed resource to report, stop, or terminate">
+      <div><small>Resource</small><strong>Managed?</strong><em>No → ignore</em></div><b>→</b>
+      <div><small>Policy</small><strong>Protected?</strong><em>Yes → exclude</em></div><b>→</b>
+      <div><small>Expiry</small><strong>Valid + expired?</strong><em>No → no action</em></div><b>→</b>
+      <div><small>Action</small><strong>State allowed?</strong><em>No → report reason</em></div><b>→</b>
+      <div class="active"><small>Bounded mutation</small><strong>Report / stop / terminate</strong><em>cap + interlocks apply</em></div>
+    </div>
+    <div class="reason-grid">
+      <div><code>expired</code><span>eligible under lifecycle policy</span></div>
+      <div><code>not_expired</code><span>managed, but lifetime remains</span></div>
+      <div><code>required_tag_missing</code><span>outside janitor authority</span></div>
+      <div><code>excluded_tag_present</code><span>explicitly protected</span></div>
+      <div><code>invalid_ttl_tag</code><span>fail closed on malformed TTL</span></div>
+      <div><code>invalid_expiration_tag</code><span>fail closed on malformed deadline</span></div>
+      <div><code>lifecycle_state_not_actionable</code><span>action incompatible with current state</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">Why this is SRE work</p><h2>The code is secondary to the failure model.</h2></div>
+    <div class="principles">
+      <article><span>Detect</span><h3>Make policy state legible</h3><p>Every resource receives an eligibility decision and reason, making unknown state visible instead of implicit.</p></article>
+      <article><span>Bound</span><h3>Cap consequences</h3><p>Opt-in ownership, dry-run defaults, protected tags, and per-run limits prevent an accidental broad sweep.</p></article>
+      <article><span>Recover</span><h3>Prefer reversible change</h3><p>Stopping before termination preserves a safer intermediate state and creates a natural review interval.</p></article>
+      <article><span>Transfer</span><h3>Make policy operable by others</h3><p>Environment variables, policy files, OCI Function payloads, structured reports, and tests make behavior inspectable and portable.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap evidence">
+    <div><p class="eyebrow dark">Inspectable evidence</p><h2>What a reviewer can verify.</h2></div>
+    <ul>
+      <li>Python policy engine and OCI discovery/action path.</li>
+      <li>OCI Functions entrypoint and deployment manifest.</li>
+      <li>Tests covering policy precedence, opt-in and exclusion behavior, TTL/deadline parsing, action caps, termination interlocks, and handler semantics.</li>
+      <li>CI coverage across Python 3.11 and 3.12.</li>
+      <li>Structured JSON reporting with scanned, eligible, selected, limited, and reason-count summaries.</li>
+    </ul>
+    <div class="actions"><a class="button" href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Inspect the repository</a><a href="../../">Return to portfolio</a></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">Roger Clevenger · Principal Site Reliability Engineer · Public engineering case study</div></footer>
+</body>
+</html>
