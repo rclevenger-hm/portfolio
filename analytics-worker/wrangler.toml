@@ -1,0 +1,16 @@
+name = "portfolio-github-analytics"
+main = "index.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+GITHUB_OWNER = "rclevenger-hm"
+PORTFOLIO_URL = "https://rclevenger-hm.github.io/portfolio/admin/github/"
+
+[triggers]
+# Two daily shards keep API subrequests bounded while every repo is collected daily.
+crons = ["15 12 * * *", "45 12 * * *"]
+
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "portfolio-github-analytics"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
