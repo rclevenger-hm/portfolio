@@ -1,0 +1,49 @@
+# Roger Clevenger — Principal Site Reliability Engineer
+
+Canonical portfolio: https://rclevenger-hm.github.io/portfolio/
+GitHub: https://github.com/rclevenger-hm
+Machine-readable JSON: https://rclevenger-hm.github.io/portfolio/data/profile.json
+
+## Professional focus
+Principal-level site reliability and DevOps engineering focused on cloud infrastructure, reliability engineering, observability, incident response, infrastructure as code, CI/CD, distributed systems, and operational automation.
+
+## Engineering principles
+- Make failure legible.
+- Bound the cost of being wrong.
+- Design recovery with the system.
+- Design for ownership transfer.
+- Distinguish implemented behavior from planned work and production-readiness claims.
+
+## Core capabilities
+Cloud and infrastructure: AWS, Oracle Cloud Infrastructure, Terraform, networking, compute, storage, identity.
+Reliability engineering: SLO thinking, incident response, failure analysis, recovery, capacity planning, runbooks.
+Delivery and automation: GitHub Actions, Jenkins, Docker, Packer, Ansible, Python, release engineering.
+Observability: Datadog, Grafana, CloudWatch, metrics, logs, alerting, operational dashboards.
+Distributed and data systems: Kafka, Hadoop, Databricks, Snowflake, OpenSearch.
+Engineering systems: JavaScript, TypeScript, APIs, serverless systems, browser applications, operational tooling.
+
+## Public engineering evidence
+
+### Sports Gamecast
+Repository: https://github.com/rclevenger-hm/sports-gamecast
+Signals: browser reliability, CI/CD, defensive parsing, state-aware refresh, favorites, notifications, broadcast mapping.
+Decision: keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.
+Boundary: the current sports data dependency is undocumented and is not represented as a supported production contract.
+
+### OCI Resource Cleanup
+Repository: https://github.com/rclevenger-hm/oci-automated-resource-cleanup
+Signals: safe automation, blast-radius control, dry-run defaults, policy, reversible operations.
+Decision: place policy and bounded actions before destructive resource cleanup so configuration or operator mistakes cannot translate directly into unlimited destructive change.
+Boundary: current cleanup eligibility is policy-based rather than utilization-based idle detection.
+
+### Identity Document Async Pipeline
+Repository: https://github.com/rclevenger-hm/driver_license_authenticity_lambda
+Signals: AWS Lambda, S3, SQS, dead-letter queue, DynamoDB, API Gateway, Terraform.
+Decision: separate request acceptance from background screening and persist job state so asynchronous work, retries, and failure recovery are explicit operating concerns.
+Boundary: the project performs plausibility screening and is not legal proof of document authenticity.
+
+### Kafka on OCI
+Repository: https://github.com/rclevenger-hm/kafka-oci-deployment
+Signals: KRaft, private networking, capacity, quorum, observability, recovery planning.
+Decision: treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.
+Boundary: executable provisioning and automated failure validation remain follow-up work.
