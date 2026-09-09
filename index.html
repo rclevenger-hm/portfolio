@@ -15,6 +15,7 @@
 <link rel="alternate" type="application/json" href="data/profile.json" title="Machine-readable portfolio profile">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="experience.css">
+<link rel="stylesheet" href="case-study-discovery.css">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -28,9 +29,9 @@
   "hasOccupation":{"@type":"Occupation","name":"Principal Site Reliability Engineer","skills":"Reliability engineering, cloud infrastructure, observability, incident response, infrastructure as code, CI/CD, distributed systems, operational automation"},
   "subjectOf":[
     {"@type":"CreativeWork","name":"Sports Gamecast","url":"https://github.com/rclevenger-hm/sports-gamecast"},
-    {"@type":"CreativeWork","name":"OCI Automated Resource Cleanup","url":"https://github.com/rclevenger-hm/oci-automated-resource-cleanup"},
+    {"@type":"TechArticle","name":"OCI Ephemeral Resource Janitor Reliability Case Study","url":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/","sameAs":"https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor"},
     {"@type":"CreativeWork","name":"Identity Document Async Pipeline","url":"https://github.com/rclevenger-hm/driver_license_authenticity_lambda"},
-    {"@type":"CreativeWork","name":"Kafka on OCI","url":"https://github.com/rclevenger-hm/kafka-oci-deployment"}
+    {"@type":"TechArticle","name":"Kafka on OCI Reliability Case Study","url":"https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/","sameAs":"https://github.com/rclevenger-hm/kafka-oci-deployment"}
   ]
 }
 </script>
@@ -124,14 +125,17 @@
       <article class="project-card">
         <div class="card-number">01</div>
         <p class="project-type">Safe automation · OCI</p>
-        <h3>OCI Resource Cleanup</h3>
-        <p>Destructive cloud automation built around policy enforcement and bounded failure rather than trusting destructive inputs by default.</p>
+        <h3>OCI Ephemeral Resource Janitor</h3>
+        <p>Destructive cloud automation built around explicit lifecycle ownership, policy enforcement, and bounded failure rather than trusting destructive inputs by default.</p>
         <dl class="evidence-list">
           <div><dt>Controls</dt><dd>Dry-run default · eligibility/protection tags · action cap</dd></div>
           <div><dt>Recovery</dt><dd>Reversible stop behavior before termination</dd></div>
           <div><dt>Boundary</dt><dd>Policy-based cleanup, not utilization-based idle detection</dd></div>
         </dl>
-        <a class="project-link" href="https://github.com/rclevenger-hm/oci-automated-resource-cleanup">Inspect repository <span aria-hidden="true">→</span></a>
+        <div class="project-actions">
+          <a class="project-link project-link-primary" href="case-studies/oci-ephemeral-resource-janitor/">Read reliability case study <span aria-hidden="true">→</span></a>
+          <a class="project-link project-link-secondary" href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Inspect repository <span aria-hidden="true">↗</span></a>
+        </div>
       </article>
 
       <article class="project-card">
@@ -157,7 +161,10 @@
           <div><dt>Signals</dt><dd>Quorum · lag · latency · disk · JVM pressure</dd></div>
           <div><dt>Boundary</dt><dd>Executable provisioning and failure validation remain follow-up work</dd></div>
         </dl>
-        <a class="project-link" href="https://github.com/rclevenger-hm/kafka-oci-deployment">Inspect repository <span aria-hidden="true">→</span></a>
+        <div class="project-actions">
+          <a class="project-link project-link-primary" href="projects/kafka-oci/">Read distributed-systems case study <span aria-hidden="true">→</span></a>
+          <a class="project-link project-link-secondary" href="https://github.com/rclevenger-hm/kafka-oci-deployment">Inspect repository <span aria-hidden="true">↗</span></a>
+        </div>
       </article>
     </div>
   </div>
@@ -274,6 +281,8 @@
     <div class="evidence-copy">
       <p>The portfolio uses semantic HTML, descriptive headings, visible project boundaries, structured JSON-LD, and a separate machine-readable profile. The goal is not keyword stuffing; it is to make the same engineering claims clear regardless of whether the reader is a person, a recruiter tool, or an automated evaluator.</p>
       <div class="evidence-links">
+        <a href="case-studies/oci-ephemeral-resource-janitor/">OCI lifecycle automation case study <span aria-hidden="true">→</span></a>
+        <a href="projects/kafka-oci/">Kafka on OCI case study <span aria-hidden="true">→</span></a>
         <a href="data/profile.json">Structured profile JSON <span aria-hidden="true">↗</span></a>
         <a href="llms.txt">Plain-text portfolio summary <span aria-hidden="true">↗</span></a>
         <a href="https://github.com/rclevenger-hm">Public GitHub evidence <span aria-hidden="true">↗</span></a>
