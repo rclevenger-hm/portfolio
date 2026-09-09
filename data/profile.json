@@ -4,6 +4,32 @@
   "profileUrl": "https://rclevenger-hm.github.io/portfolio/",
   "github": "https://github.com/rclevenger-hm",
   "summary": "Principal-level SRE and DevOps engineer focused on reliable cloud infrastructure, observability, incident response, infrastructure as code, CI/CD, distributed systems, and operational automation.",
+  "experience": [
+    {
+      "era": "current",
+      "role": "Principal Site Reliability Engineer",
+      "organization": "Oracle",
+      "focus": ["OCI", "AWS", "Terraform", "Kafka", "Hadoop", "observability", "incident response", "operational automation"]
+    },
+    {
+      "era": "prior",
+      "role": "DevOps Engineer",
+      "organization": "Happy Money",
+      "focus": ["AWS", "CI/CD", "Terraform", "Docker", "Datadog", "deployment automation"]
+    },
+    {
+      "era": "prior",
+      "role": "DevOps Engineer",
+      "organization": "NextVR",
+      "focus": ["AWS", "Jenkins", "Packer", "Ansible", "release engineering", "production support"]
+    },
+    {
+      "era": "foundation",
+      "role": "Software Quality Engineer",
+      "organization": "Local Corporation",
+      "focus": ["test automation", "Linux", "JavaScript", "logs", "systems debugging"]
+    }
+  ],
   "engineeringPrinciples": [
     "Make failure legible",
     "Bound the cost of being wrong",
