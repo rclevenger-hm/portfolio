@@ -1,0 +1,38 @@
+name: Validate Kafka Case Study
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'projects/kafka-oci/**'
+      - '.github/workflows/kafka-case-study.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-kafka-case-study:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate content and asset budget
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('projects/kafka-oci/index.html','utf8');
+          const css=fs.readFileSync('projects/kafka-oci/case-study.css','utf8');
+          const required=[
+            'Case study boundary','Reference topology','KRaft','min.insync.replicas',
+            'Storage exhaustion is an availability event','Diagnose the failure domain',
+            'Explicit boundary','Skip to main content'
+          ];
+          for(const s of required){if(!html.includes(s)){console.error('missing required case-study content:',s);process.exitCode=1;}}
+          for(const s of ['focus-visible','prefers-reduced-motion','@media print']){if(!css.includes(s)){console.error('missing accessibility/print rule:',s);process.exitCode=1;}}
+          const combined=html+css;
+          if(/ChatGPT|OpenAI|generated-by|coding agent/i.test(combined)){console.error('disallowed portfolio-facing attribution');process.exitCode=1;}
+          const bytes=Buffer.byteLength(html)+Buffer.byteLength(css);
+          console.log(`Kafka case-study assets: ${bytes}/45000 bytes`);
+          if(bytes>45000){console.error('case-study asset budget exceeded');process.exitCode=1;}
+          if(!process.exitCode) console.log('Kafka case study validation passed');
+          NODE
