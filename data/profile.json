@@ -71,6 +71,7 @@
     {
       "name": "Kafka on OCI",
       "repository": "https://github.com/rclevenger-hm/kafka-oci-deployment",
+      "caseStudy": "https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/",
       "signals": ["KRaft", "private networking", "capacity", "quorum", "observability", "recovery planning"],
       "engineeringDecision": "Treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.",
       "boundary": "Executable provisioning and automated failure validation remain follow-up work."
