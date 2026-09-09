@@ -6,6 +6,16 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://rclevenger-hm.github.io/portfolio/data/profile.json</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
