@@ -7,6 +7,14 @@ Machine-readable JSON: https://rclevenger-hm.github.io/portfolio/data/profile.js
 ## Professional focus
 Principal-level site reliability and DevOps engineering focused on cloud infrastructure, reliability engineering, observability, incident response, infrastructure as code, CI/CD, distributed systems, and operational automation.
 
+## Selected experience
+Current: Principal Site Reliability Engineer, Oracle — reliability and operations for cloud and distributed data infrastructure, including OCI, AWS, Terraform, Kafka, Hadoop, observability, incident response, and operational automation.
+Prior: DevOps Engineer, Happy Money — cloud infrastructure, CI/CD, Terraform, Docker, Datadog, deployment automation, and operational visibility.
+Prior: DevOps Engineer, NextVR — AWS infrastructure, Jenkins, Packer, Ansible, release engineering, and production support in media technology.
+Foundation: Software Quality Engineer, Local Corporation — test automation, Linux, JavaScript, logs, and systems debugging.
+
+Public portfolio boundary: employer-proprietary systems, customer details, internal metrics, private repositories, and confidential architecture are intentionally excluded.
+
 ## Engineering principles
 - Make failure legible.
 - Bound the cost of being wrong.
