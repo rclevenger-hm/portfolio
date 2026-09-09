@@ -30,11 +30,12 @@ Signals: browser reliability, CI/CD, defensive parsing, state-aware refresh, fav
 Decision: keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.
 Boundary: the current sports data dependency is undocumented and is not represented as a supported production contract.
 
-### OCI Resource Cleanup
-Repository: https://github.com/rclevenger-hm/oci-automated-resource-cleanup
-Signals: safe automation, blast-radius control, dry-run defaults, policy, reversible operations.
-Decision: place policy and bounded actions before destructive resource cleanup so configuration or operator mistakes cannot translate directly into unlimited destructive change.
-Boundary: current cleanup eligibility is policy-based rather than utilization-based idle detection.
+### OCI Ephemeral Resource Janitor
+Repository: https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor
+Case study: https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/
+Signals: explicit opt-in lifecycle ownership, dry-run defaults, protected-resource policy, fail-closed TTL/expiration parsing, per-run action caps, separate termination interlock, two-phase stop-then-terminate behavior, structured audit reporting.
+Decision: require explicit lifecycle ownership and layer reversible defaults, bounded actions, protection policy, validation, and independent termination permission before destructive OCI lifecycle actions are permitted.
+Boundary: this enforces policy for explicitly ephemeral resources; it does not infer idle resources from utilization and currently supports OCI Compute instances.
 
 ### Identity Document Async Pipeline
 Repository: https://github.com/rclevenger-hm/driver_license_authenticity_lambda

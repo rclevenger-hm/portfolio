@@ -28,11 +28,12 @@
       "boundary": "The current sports data dependency is undocumented and is not represented as a supported production contract."
     },
     {
-      "name": "OCI Resource Cleanup",
-      "repository": "https://github.com/rclevenger-hm/oci-automated-resource-cleanup",
-      "signals": ["safe automation", "blast-radius control", "dry-run defaults", "policy", "reversible operations"],
-      "engineeringDecision": "Place policy and bounded actions before destructive resource cleanup so operator or configuration mistakes cannot translate directly into unlimited destructive change.",
-      "boundary": "Current cleanup eligibility is policy-based rather than utilization-based idle detection."
+      "name": "OCI Ephemeral Resource Janitor",
+      "repository": "https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor",
+      "caseStudy": "https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/",
+      "signals": ["safe automation", "blast-radius control", "explicit opt-in policy", "dry-run defaults", "fail-closed parsing", "two-phase termination", "structured audit reporting"],
+      "engineeringDecision": "Require explicit lifecycle ownership and layer reversible defaults, action caps, protection policy, fail-closed parsing, and separate termination interlocks before destructive OCI lifecycle actions are permitted.",
+      "boundary": "The janitor enforces explicit ephemeral-resource lifecycle policy; it does not infer idle resources from utilization and currently supports OCI Compute instances."
     },
     {
       "name": "Identity Document Async Pipeline",
