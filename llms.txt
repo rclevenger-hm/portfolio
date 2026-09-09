@@ -53,6 +53,7 @@ Boundary: the project performs plausibility screening and is not legal proof of 
 
 ### Kafka on OCI
 Repository: https://github.com/rclevenger-hm/kafka-oci-deployment
+Case study: https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/
 Signals: KRaft, private networking, capacity, quorum, observability, recovery planning.
 Decision: treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.
 Boundary: executable provisioning and automated failure validation remain follow-up work.
