@@ -5,75 +5,50 @@
   "github": "https://github.com/rclevenger-hm",
   "summary": "Principal-level SRE and DevOps engineer focused on reliable cloud infrastructure, observability, incident response, infrastructure as code, CI/CD, distributed systems, and operational automation.",
   "experience": [
-    {
-      "era": "current",
-      "role": "Principal Site Reliability Engineer",
-      "organization": "Oracle",
-      "focus": ["OCI", "AWS", "Terraform", "Kafka", "Hadoop", "observability", "incident response", "operational automation"]
-    },
-    {
-      "era": "prior",
-      "role": "DevOps Engineer",
-      "organization": "Happy Money",
-      "focus": ["AWS", "CI/CD", "Terraform", "Docker", "Datadog", "deployment automation"]
-    },
-    {
-      "era": "prior",
-      "role": "DevOps Engineer",
-      "organization": "NextVR",
-      "focus": ["AWS", "Jenkins", "Packer", "Ansible", "release engineering", "production support"]
-    },
-    {
-      "era": "foundation",
-      "role": "Software Quality Engineer",
-      "organization": "Local Corporation",
-      "focus": ["test automation", "Linux", "JavaScript", "logs", "systems debugging"]
-    }
+    {"era":"current","role":"Principal Site Reliability Engineer","organization":"Oracle","focus":["OCI","AWS","Terraform","Kafka","Hadoop","observability","incident response","operational automation"]},
+    {"era":"prior","role":"DevOps Engineer","organization":"Happy Money","focus":["AWS","CI/CD","Terraform","Docker","Datadog","deployment automation"]},
+    {"era":"prior","role":"DevOps Engineer","organization":"NextVR","focus":["AWS","Jenkins","Packer","Ansible","release engineering","production support"]},
+    {"era":"foundation","role":"Software Quality Engineer","organization":"Local Corporation","focus":["test automation","Linux","JavaScript","logs","systems debugging"]}
   ],
-  "engineeringPrinciples": [
-    "Make failure legible",
-    "Bound the cost of being wrong",
-    "Design recovery with the system",
-    "Design for ownership transfer",
-    "Separate implemented behavior from planned work"
-  ],
+  "engineeringPrinciples": ["Make failure legible","Bound the cost of being wrong","Design recovery with the system","Design for ownership transfer","Separate implemented behavior from planned work"],
   "capabilities": {
-    "cloudAndInfrastructure": ["AWS", "Oracle Cloud Infrastructure", "Terraform", "networking", "compute", "storage", "identity"],
-    "reliabilityEngineering": ["SLO thinking", "incident response", "failure analysis", "recovery", "capacity planning", "runbooks"],
-    "deliveryAndAutomation": ["GitHub Actions", "Jenkins", "Docker", "Packer", "Ansible", "Python", "release engineering"],
-    "observability": ["Datadog", "Grafana", "CloudWatch", "metrics", "logs", "alerting", "operational dashboards"],
-    "distributedAndDataSystems": ["Kafka", "Hadoop", "Databricks", "Snowflake", "OpenSearch"],
-    "engineeringSystems": ["JavaScript", "TypeScript", "APIs", "serverless systems", "browser applications", "operational tooling"]
+    "cloudAndInfrastructure": ["AWS","Oracle Cloud Infrastructure","Terraform","networking","compute","storage","identity"],
+    "reliabilityEngineering": ["SLO thinking","incident response","failure analysis","recovery","capacity planning","runbooks"],
+    "deliveryAndAutomation": ["GitHub Actions","Jenkins","Docker","Packer","Ansible","Python","release engineering"],
+    "observability": ["Datadog","Grafana","CloudWatch","metrics","logs","alerting","operational dashboards"],
+    "distributedAndDataSystems": ["Kafka","Hadoop","Databricks","Snowflake","OpenSearch"],
+    "engineeringSystems": ["JavaScript","TypeScript","APIs","serverless systems","browser applications","operational tooling"]
   },
   "publicProjects": [
     {
-      "name": "Sports Gamecast",
-      "repository": "https://github.com/rclevenger-hm/sports-gamecast",
-      "signals": ["browser reliability", "CI/CD", "defensive parsing", "state-aware refresh", "favorites", "notifications", "broadcast mapping"],
-      "engineeringDecision": "Keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.",
-      "boundary": "The current sports data dependency is undocumented and is not represented as a supported production contract."
+      "name":"Sports Gamecast",
+      "repository":"https://github.com/rclevenger-hm/sports-gamecast",
+      "signals":["browser reliability","CI/CD","defensive parsing","state-aware refresh","favorites","notifications","broadcast mapping","PWA"],
+      "engineeringDecision":"Keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.",
+      "boundary":"The current sports data dependency is undocumented and is not represented as a supported production contract."
     },
     {
-      "name": "OCI Ephemeral Resource Janitor",
-      "repository": "https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor",
-      "caseStudy": "https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/",
-      "signals": ["safe automation", "blast-radius control", "explicit opt-in policy", "dry-run defaults", "fail-closed parsing", "two-phase termination", "structured audit reporting"],
-      "engineeringDecision": "Require explicit lifecycle ownership and layer reversible defaults, action caps, protection policy, fail-closed parsing, and separate termination interlocks before destructive OCI lifecycle actions are permitted.",
-      "boundary": "The janitor enforces explicit ephemeral-resource lifecycle policy; it does not infer idle resources from utilization and currently supports OCI Compute instances."
+      "name":"OCI Ephemeral Resource Janitor",
+      "repository":"https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor",
+      "caseStudy":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/",
+      "signals":["safe automation","blast-radius control","explicit opt-in policy","dry-run defaults","fail-closed parsing","two-phase termination","structured audit reporting"],
+      "engineeringDecision":"Require explicit lifecycle ownership and layer reversible defaults, action caps, protection policy, fail-closed parsing, and separate termination interlocks before destructive OCI lifecycle actions are permitted.",
+      "boundary":"The janitor enforces explicit ephemeral-resource lifecycle policy; it does not infer idle resources from utilization and currently supports OCI Compute instances."
     },
     {
-      "name": "Identity Document Async Pipeline",
-      "repository": "https://github.com/rclevenger-hm/driver_license_authenticity_lambda",
-      "signals": ["AWS Lambda", "S3", "SQS", "dead-letter queue", "DynamoDB", "API Gateway", "Terraform"],
-      "engineeringDecision": "Separate request acceptance from background screening and persist job state so asynchronous work, retries, and failure recovery are explicit operating concerns.",
-      "boundary": "The project performs plausibility screening and is not legal proof of document authenticity."
+      "name":"Identity Document Async Pipeline",
+      "repository":"https://github.com/rclevenger-hm/driver_license_authenticity_lambda",
+      "signals":["AWS Lambda","S3","SQS","dead-letter queue","DynamoDB","API Gateway","Terraform"],
+      "engineeringDecision":"Separate request acceptance from background screening and persist job state so asynchronous work, retries, and failure recovery are explicit operating concerns.",
+      "boundary":"The project performs plausibility screening and is not legal proof of document authenticity."
     },
     {
-      "name": "Kafka on OCI",
-      "repository": "https://github.com/rclevenger-hm/kafka-oci-deployment",
-      "signals": ["KRaft", "private networking", "capacity", "quorum", "observability", "recovery planning"],
-      "engineeringDecision": "Treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.",
-      "boundary": "Executable provisioning and automated failure validation remain follow-up work."
+      "name":"Kafka on OCI",
+      "repository":"https://github.com/rclevenger-hm/kafka-oci-deployment",
+      "caseStudy":"https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/",
+      "signals":["KRaft","private networking","Terraform","capacity","quorum","observability","recovery planning"],
+      "engineeringDecision":"Treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.",
+      "boundary":"The private OCI network foundation is executable Terraform; broker compute, Kafka configuration, and automated failure validation remain follow-up work."
     }
   ]
 }
