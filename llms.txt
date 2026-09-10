@@ -34,7 +34,7 @@ Engineering systems: JavaScript, TypeScript, APIs, serverless systems, browser a
 
 ### Sports Gamecast
 Repository: https://github.com/rclevenger-hm/sports-gamecast
-Signals: browser reliability, CI/CD, defensive parsing, state-aware refresh, favorites, notifications, broadcast mapping.
+Signals: browser reliability, CI/CD, defensive parsing, state-aware refresh, favorites, notifications, broadcast mapping, PWA installability.
 Decision: keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.
 Boundary: the current sports data dependency is undocumented and is not represented as a supported production contract.
 
@@ -53,6 +53,7 @@ Boundary: the project performs plausibility screening and is not legal proof of 
 
 ### Kafka on OCI
 Repository: https://github.com/rclevenger-hm/kafka-oci-deployment
-Signals: KRaft, private networking, capacity, quorum, observability, recovery planning.
+Case study: https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/
+Signals: KRaft, private networking, Terraform, capacity, quorum, observability, recovery planning.
 Decision: treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.
-Boundary: executable provisioning and automated failure validation remain follow-up work.
+Boundary: the private OCI network foundation is executable Terraform; broker compute, Kafka configuration, and automated failure validation remain follow-up work.
