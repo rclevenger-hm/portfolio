@@ -28,7 +28,7 @@
   "hasOccupation":{"@type":"Occupation","name":"Principal Site Reliability Engineer","skills":"Reliability engineering, cloud infrastructure, observability, incident response, infrastructure as code, CI/CD, distributed systems, operational automation"},
   "subjectOf":[
     {"@type":"CreativeWork","name":"Sports Gamecast","url":"https://github.com/rclevenger-hm/sports-gamecast"},
-    {"@type":"CreativeWork","name":"OCI Automated Resource Cleanup","url":"https://github.com/rclevenger-hm/oci-automated-resource-cleanup"},
+    {"@type":"CreativeWork","name":"OCI Ephemeral Resource Janitor","url":"https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor"},
     {"@type":"CreativeWork","name":"Identity Document Async Pipeline","url":"https://github.com/rclevenger-hm/driver_license_authenticity_lambda"},
     {"@type":"CreativeWork","name":"Kafka on OCI","url":"https://github.com/rclevenger-hm/kafka-oci-deployment"}
   ]
@@ -124,14 +124,15 @@
       <article class="project-card">
         <div class="card-number">01</div>
         <p class="project-type">Safe automation · OCI</p>
-        <h3>OCI Resource Cleanup</h3>
+        <h3>OCI Ephemeral Resource Janitor</h3>
         <p>Destructive cloud automation built around policy enforcement and bounded failure rather than trusting destructive inputs by default.</p>
         <dl class="evidence-list">
           <div><dt>Controls</dt><dd>Dry-run default · eligibility/protection tags · action cap</dd></div>
           <div><dt>Recovery</dt><dd>Reversible stop behavior before termination</dd></div>
           <div><dt>Boundary</dt><dd>Policy-based cleanup, not utilization-based idle detection</dd></div>
         </dl>
-        <a class="project-link" href="https://github.com/rclevenger-hm/oci-automated-resource-cleanup">Inspect repository <span aria-hidden="true">→</span></a>
+        <a class="project-link" href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Inspect repository <span aria-hidden="true">→</span></a><br>
+        <a class="project-link" href="case-studies/oci-ephemeral-resource-janitor/">Read reliability case study <span aria-hidden="true">→</span></a>
       </article>
 
       <article class="project-card">
@@ -155,9 +156,10 @@
         <dl class="evidence-list">
           <div><dt>Architecture</dt><dd>KRaft · private topology · recovery headroom</dd></div>
           <div><dt>Signals</dt><dd>Quorum · lag · latency · disk · JVM pressure</dd></div>
-          <div><dt>Boundary</dt><dd>Executable provisioning and failure validation remain follow-up work</dd></div>
+          <div><dt>Boundary</dt><dd>Network Terraform exists; broker compute/configuration and automated failure validation remain follow-up work</dd></div>
         </dl>
-        <a class="project-link" href="https://github.com/rclevenger-hm/kafka-oci-deployment">Inspect repository <span aria-hidden="true">→</span></a>
+        <a class="project-link" href="https://github.com/rclevenger-hm/kafka-oci-deployment">Inspect repository <span aria-hidden="true">→</span></a><br>
+        <a class="project-link" href="projects/kafka-oci/">Read distributed-systems case study <span aria-hidden="true">→</span></a>
       </article>
     </div>
   </div>
