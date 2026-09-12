@@ -48,6 +48,7 @@ Boundary: this enforces policy for explicitly ephemeral resources; it does not i
 
 ### Identity Document Async Pipeline
 Repository: https://github.com/rclevenger-hm/driver_license_authenticity_lambda
+Case study: https://rclevenger-hm.github.io/portfolio/projects/aws-async-intake/
 Signals: AWS Lambda, S3, SQS, dead-letter queue, DynamoDB, API Gateway, Terraform.
 Decision: separate request acceptance from background screening and persist job state so asynchronous work, retries, and failure recovery are explicit operating concerns.
 Boundary: the project performs plausibility screening and is not legal proof of document authenticity.
