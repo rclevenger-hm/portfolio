@@ -39,6 +39,7 @@
     {
       "name":"Identity Document Async Pipeline",
       "repository":"https://github.com/rclevenger-hm/driver_license_authenticity_lambda",
+      "caseStudy":"https://rclevenger-hm.github.io/portfolio/projects/aws-async-intake/",
       "signals":["AWS Lambda","S3","SQS","dead-letter queue","DynamoDB","API Gateway","Terraform"],
       "engineeringDecision":"Separate request acceptance from background screening and persist job state so asynchronous work, retries, and failure recovery are explicit operating concerns.",
       "boundary":"The project performs plausibility screening and is not legal proof of document authenticity."
