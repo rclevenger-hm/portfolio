@@ -1,0 +1,38 @@
+name: Validate AWS Async Intake Case Study
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'projects/aws-async-intake/**'
+      - '.github/workflows/aws-async-case-study.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-aws-async-case-study:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate content, semantics, and asset budget
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('projects/aws-async-intake/index.html','utf8');
+          const css=fs.readFileSync('projects/aws-async-intake/case-study.css','utf8');
+          const required=[
+            'Skip to main content','Case study boundary','202 Accepted','SQS DLQ',
+            'batchItemFailures','SQS send fails after persistence','transactional-outbox-style handoff',
+            'Production hardening path','Explicit boundary','application/ld+json'
+          ];
+          for(const s of required){if(!html.includes(s)){console.error('missing required case-study content:',s);process.exitCode=1;}}
+          for(const s of ['focus-visible','prefers-reduced-motion','@media print']){if(!css.includes(s)){console.error('missing accessibility/print rule:',s);process.exitCode=1;}}
+          if(!html.includes('https://github.com/rclevenger-hm/driver_license_authenticity_lambda')){console.error('missing source repository link');process.exitCode=1;}
+          if(/ChatGPT|OpenAI|generated-by|coding agent/i.test(html+css)){console.error('disallowed portfolio-facing attribution');process.exitCode=1;}
+          const bytes=Buffer.byteLength(html)+Buffer.byteLength(css);
+          console.log(`AWS async case-study assets: ${bytes}/50000 bytes`);
+          if(bytes>50000){console.error('case-study asset budget exceeded');process.exitCode=1;}
+          if(!process.exitCode) console.log('AWS async intake case study validation passed');
+          NODE
