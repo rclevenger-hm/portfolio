@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roger Clevenger — Principal SRE Resume</title>
+<meta name="description" content="Concise public resume for Roger Clevenger, Principal Site Reliability Engineer, focused on cloud infrastructure, reliability, observability, CI/CD, distributed systems, and operational automation.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Roger Clevenger — Principal SRE Resume">
+<meta property="og:description" content="Principal-level SRE and DevOps experience, technical capabilities, and inspectable public engineering evidence.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/resume/">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/resume/">
+<link rel="alternate" type="application/json" href="../data/profile.json" title="Machine-readable portfolio profile">
+<link rel="stylesheet" href="resume.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Roger Clevenger",
+  "jobTitle":"Principal Site Reliability Engineer",
+  "url":"https://rclevenger-hm.github.io/portfolio/",
+  "sameAs":["https://github.com/rclevenger-hm"],
+  "worksFor":{"@type":"Organization","name":"Oracle"},
+  "knowsAbout":["Site Reliability Engineering","DevOps","AWS","Oracle Cloud Infrastructure","Terraform","Observability","Incident Response","CI/CD","Kafka","Hadoop","Distributed Systems","Infrastructure Automation"]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#resume-main">Skip to resume</a>
+<header class="screen-bar">
+  <a class="brand" href="../"><span class="brand-mark">RC</span><span>Portfolio</span></a>
+  <div class="screen-actions">
+    <a href="https://github.com/rclevenger-hm">GitHub</a>
+    <button type="button" onclick="window.print()">Print / save PDF</button>
+  </div>
+</header>
+
+<main id="resume-main" class="resume-shell">
+  <header class="resume-header">
+    <div>
+      <p class="eyebrow">Principal Site Reliability Engineer</p>
+      <h1>Roger Clevenger</h1>
+      <p class="summary">Principal-level SRE and DevOps engineer focused on reliable cloud infrastructure, observable systems, safe infrastructure change, incident response, distributed data platforms, and operational automation.</p>
+    </div>
+    <dl class="contact-card" aria-label="Public professional links">
+      <div><dt>Portfolio</dt><dd><a href="https://rclevenger-hm.github.io/portfolio/">rclevenger-hm.github.io/portfolio</a></dd></div>
+      <div><dt>GitHub</dt><dd><a href="https://github.com/rclevenger-hm">github.com/rclevenger-hm</a></dd></div>
+      <div><dt>Profile data</dt><dd><a href="../data/profile.json">Structured JSON</a></dd></div>
+    </dl>
+  </header>
+
+  <section class="resume-section profile-section" aria-labelledby="profile-heading">
+    <div class="section-label"><span>01</span><h2 id="profile-heading">Operating profile</h2></div>
+    <div class="profile-grid">
+      <article><h3>Cloud & infrastructure</h3><p>AWS · OCI · Terraform · networking · compute · storage · identity</p></article>
+      <article><h3>Reliability</h3><p>Incident response · failure analysis · recovery · SLO thinking · capacity · runbooks</p></article>
+      <article><h3>Delivery</h3><p>GitHub Actions · Jenkins · Docker · Packer · Ansible · Python · release engineering</p></article>
+      <article><h3>Systems</h3><p>Kafka · Hadoop · Databricks · Snowflake · OpenSearch · serverless systems</p></article>
+    </div>
+  </section>
+
+  <section class="resume-section" aria-labelledby="experience-heading">
+    <div class="section-label"><span>02</span><h2 id="experience-heading">Selected experience</h2></div>
+    <ol class="experience-list">
+      <li>
+        <div class="role-meta"><strong>Oracle</strong><span>Current</span></div>
+        <div class="role-body"><h3>Principal Site Reliability Engineer</h3><p>Reliability and operations for cloud and distributed data infrastructure, with emphasis on observable systems, safe infrastructure change, incident response, automation, and ownership transfer.</p><p class="signals">OCI · AWS · Terraform · Kafka · Hadoop · Observability</p></div>
+      </li>
+      <li>
+        <div class="role-meta"><strong>Happy Money</strong><span>Prior</span></div>
+        <div class="role-body"><h3>DevOps Engineer</h3><p>Cloud infrastructure and delivery work focused on repeatable environments, deployment automation, operational visibility, and reducing friction between application engineering and production operations.</p><p class="signals">AWS · CI/CD · Terraform · Docker · Datadog</p></div>
+      </li>
+      <li>
+        <div class="role-meta"><strong>NextVR</strong><span>Prior</span></div>
+        <div class="role-body"><h3>DevOps Engineer</h3><p>Infrastructure and release engineering in a media technology environment where dependable delivery, automation, and production support were part of the product experience.</p><p class="signals">AWS · Jenkins · Packer · Ansible · Release engineering</p></div>
+      </li>
+      <li>
+        <div class="role-meta"><strong>Local Corporation</strong><span>Foundation</span></div>
+        <div class="role-body"><h3>Software Quality Engineer</h3><p>Developed the systems-debugging foundation behind the later SRE work: reproduce failure, follow the full request path, read logs rather than guess, and automate repeatable checks.</p><p class="signals">Test automation · Linux · JavaScript · Logs · Systems debugging</p></div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="resume-section" aria-labelledby="evidence-heading">
+    <div class="section-label"><span>03</span><h2 id="evidence-heading">Inspectable engineering evidence</h2></div>
+    <div class="evidence-grid">
+      <article>
+        <div class="evidence-head"><span>Safe cloud automation</span><a href="../case-studies/oci-ephemeral-resource-janitor/">Case study ↗</a></div>
+        <h3>OCI Ephemeral Resource Janitor</h3>
+        <p>Explicit lifecycle ownership, dry-run defaults, protection policy, fail-closed parsing, action caps, and a separate termination interlock before destructive actions are permitted.</p>
+      </article>
+      <article>
+        <div class="evidence-head"><span>Distributed systems</span><a href="../projects/kafka-oci/">Case study ↗</a></div>
+        <h3>Kafka on OCI</h3>
+        <p>KRaft consensus, private networking, replication semantics, capacity and recovery headroom, observability, and failure-domain reasoning treated as one reliability envelope.</p>
+      </article>
+      <article>
+        <div class="evidence-head"><span>Async recovery</span><a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda">Repository ↗</a></div>
+        <h3>Identity Document Async Pipeline</h3>
+        <p>API Gateway, Lambda, S3, SQS/DLQ, persisted job state, throttling, and Terraform make asynchronous work and recovery paths explicit operating concerns.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="resume-section principles" aria-labelledby="principles-heading">
+    <div class="section-label"><span>04</span><h2 id="principles-heading">Engineering principles</h2></div>
+    <p><strong>Make failure legible.</strong> <strong>Bound the cost of being wrong.</strong> <strong>Design recovery with the system.</strong> <strong>Design for ownership transfer.</strong></p>
+  </section>
+
+  <aside class="scope-note" aria-label="Public portfolio scope">
+    <strong>Public resume boundary.</strong> Employer-proprietary systems, customer details, internal metrics, confidential architecture, and private repository contents are intentionally excluded. Public projects are linked where claims can be inspected directly.
+  </aside>
+</main>
+
+<footer class="resume-footer">
+  <span>Roger Clevenger · Principal Site Reliability Engineer</span>
+  <a href="../">Full portfolio</a>
+</footer>
+</body>
+</html>

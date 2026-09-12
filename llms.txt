@@ -1,6 +1,7 @@
 # Roger Clevenger — Principal Site Reliability Engineer
 
 Canonical portfolio: https://rclevenger-hm.github.io/portfolio/
+Recruiter resume: https://rclevenger-hm.github.io/portfolio/resume/
 GitHub: https://github.com/rclevenger-hm
 Machine-readable JSON: https://rclevenger-hm.github.io/portfolio/data/profile.json
 

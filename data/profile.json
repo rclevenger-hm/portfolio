@@ -2,6 +2,7 @@
   "name": "Roger Clevenger",
   "title": "Principal Site Reliability Engineer",
   "profileUrl": "https://rclevenger-hm.github.io/portfolio/",
+  "resumeUrl": "https://rclevenger-hm.github.io/portfolio/resume/",
   "github": "https://github.com/rclevenger-hm",
   "summary": "Principal-level SRE and DevOps engineer focused on reliable cloud infrastructure, observability, incident response, infrastructure as code, CI/CD, distributed systems, and operational automation.",
   "experience": [
