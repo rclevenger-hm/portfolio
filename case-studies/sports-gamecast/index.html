@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sports Gamecast — Reliability Case Study</title>
+<meta name="description" content="A principal-level SRE case study on defensive browser data handling, state-aware refresh, deterministic Playwright validation, scheduled broadcast-data refresh, and GitHub Pages deployment gates.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/case-studies/sports-gamecast/">
+<link rel="stylesheet" href="../case-study.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Sports Gamecast — Reliability Case Study","author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},"about":["Site Reliability Engineering","Browser Reliability","CI/CD","GitHub Pages","Playwright","Progressive Web Apps"],"url":"https://rclevenger-hm.github.io/portfolio/case-studies/sports-gamecast/"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to case study</a>
+<header class="case-nav"><a href="../../">RC / Portfolio</a><nav><a href="https://github.com/rclevenger-hm/sports-gamecast">Repository</a></nav></header>
+<main id="main">
+<section class="case-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Reliability case study · browser application · CI/CD · GitHub Pages</p>
+      <h1>An unreliable upstream feed should degrade the product, not redefine it.</h1>
+      <p class="lede">Sports Gamecast is a static, multi-sport live scoreboard and Gamecast that consumes an undocumented public sports feed directly in the browser. The engineering problem is to keep live behavior useful when the upstream contract can change, while making releases deterministic enough to trust.</p>
+    </div>
+    <aside class="brief">
+      <span>Runtime</span><strong>Static HTML/CSS/JS in the browser</strong>
+      <span>Upstream boundary</span><strong>Undocumented public sports data</strong>
+      <span>Validation</span><strong>Headless Chromium with mocked data</strong>
+      <span>Release gate</span><strong>Tests must pass before Pages deploy</strong>
+      <span>Refresh model</span><strong>Live state drives polling cadence</strong>
+    </aside>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">The operating problem</p><h2>Live data creates two failure surfaces: the feed and the release.</h2></div>
+    <div class="prose">
+      <p>The application has no server to normalize or cache upstream responses. Every visitor depends on a browser-side integration with a source that is useful but not a supported production API contract. That makes defensive parsing and visible retry behavior part of the user experience rather than implementation detail.</p>
+      <p>The second risk is change. A static site is operationally simple only if a deploy cannot silently break scoreboards, Gamecast rendering, or the browser scripts that assemble the experience.</p>
+      <p class="boundary"><strong>Boundary:</strong> the project explicitly treats its sports data source as an undocumented dependency. The case study demonstrates how uncertainty is contained; it does not claim an upstream availability guarantee.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section ink">
+  <div class="wrap">
+    <p class="eyebrow">Reliability controls</p>
+    <h2>Keep uncertainty at the edge and make release behavior repeatable.</h2>
+    <div class="guardrail-flow" aria-label="Sports Gamecast reliability controls">
+      <article><span>01</span><h3>Stay dependency-light</h3><p>The runtime remains static HTML, CSS, and JavaScript, avoiding an application server and reducing the number of moving parts required to serve a live experience.</p></article>
+      <article><span>02</span><h3>Parse defensively</h3><p>Browser code expects upstream data to be incomplete or unavailable and presents retry behavior instead of assuming a stable response contract.</p></article>
+      <article><span>03</span><h3>Poll by game state</h3><p>Live games refresh aggressively while finished or inactive slates can back off, tying load and freshness to the state that actually matters.</p></article>
+      <article><span>04</span><h3>Mock the dependency</h3><p>Playwright smoke tests exercise the scoreboard and Gamecast against controlled sports responses so release validation does not depend on the live upstream service.</p></article>
+      <article><span>05</span><h3>Gate deployment</h3><p>GitHub Pages deployment depends on the test job. Pull requests validate without publishing, while successful non-PR runs can proceed to release.</p></article>
+      <article><span>06</span><h3>Regenerate volatile data</h3><p>Broadcast mappings are refreshed during deployment and validated before the static artifact is published, separating generated current data from hand-maintained source.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap">
+    <header class="section-head"><div><p class="eyebrow dark">Delivery path</p><h2>A small site still deserves an explicit release contract.</h2></div><p>The workflow makes runtime simplicity a result of engineering discipline rather than the absence of controls.</p></header>
+    <div class="decision-diagram" role="img" aria-label="Sports Gamecast CI/CD path from source change to GitHub Pages">
+      <div><small>Change</small><strong>Source update</strong><em>push or pull request</em></div><b>→</b>
+      <div><small>Static checks</small><strong>PWA assets valid?</strong><em>syntax + manifest</em></div><b>→</b>
+      <div><small>Browser test</small><strong>Mocked Gamecast works?</strong><em>Chromium smoke coverage</em></div><b>→</b>
+      <div><small>Data step</small><strong>Broadcast map valid?</strong><em>non-PR deploy path</em></div><b>→</b>
+      <div class="active"><small>Release</small><strong>GitHub Pages</strong><em>publish only after gates pass</em></div>
+    </div>
+    <div class="reason-grid">
+      <div><code>feed_unavailable</code><span>surface retry state instead of breaking the interface</span></div>
+      <div><code>schema_drift</code><span>defensive parsing limits the effect of missing fields</span></div>
+      <div><code>browser_regression</code><span>mocked Playwright coverage blocks release</span></div>
+      <div><code>pwa_regression</code><span>script syntax and manifest checks fail the test job</span></div>
+      <div><code>broadcast_data_error</code><span>generated mappings are validated before publish</span></div>
+      <div><code>overlapping_release</code><span>workflow concurrency cancels superseded runs</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">Operational tradeoffs</p><h2>Static architecture removes servers, not responsibility.</h2></div>
+    <div class="principles">
+      <article><span>Availability</span><h3>Fewer owned components</h3><p>No application server, database, or API credential layer is required to render the core live experience, reducing owned infrastructure and operational overhead.</p></article>
+      <article><span>Dependency risk</span><h3>Upstream change remains real</h3><p>The browser still relies on an external feed. The design contains that dependency but cannot turn an undocumented interface into a guaranteed service.</p></article>
+      <article><span>Validation</span><h3>Determinism over live integration tests</h3><p>Release tests use mocked responses so failures represent application regressions rather than temporary upstream availability.</p></article>
+      <article><span>Freshness</span><h3>Generated data at deploy time</h3><p>Broadcast metadata can be refreshed on the release path without adding a persistent backend solely to keep a static site current.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap evidence">
+    <div><p class="eyebrow dark">Inspectable evidence</p><h2>What a reviewer can verify.</h2></div>
+    <ul>
+      <li>A static multi-sport scoreboard and Gamecast with live-state-aware refresh behavior.</li>
+      <li>Explicit documentation that the upstream sports endpoints are undocumented and may change.</li>
+      <li>Playwright browser tests run against mocked sports responses before deployment.</li>
+      <li>GitHub Actions separates pull-request validation from Pages deployment.</li>
+      <li>PWA asset validation, generated broadcast-data validation, and concurrency controls in the release workflow.</li>
+      <li>A scheduled workflow path that periodically exercises the same validation and release machinery.</li>
+    </ul>
+    <div class="actions"><a class="button" href="https://github.com/rclevenger-hm/sports-gamecast">Inspect the repository</a><a href="../../">Return to portfolio</a></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">Roger Clevenger · Principal Site Reliability Engineer · Public engineering case study</div></footer>
+</body>
+</html>
