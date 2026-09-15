@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reliability Evidence Map — Roger Clevenger</title>
+<meta name="description" content="A principal-SRE evidence map connecting reliability capabilities to inspectable public engineering work in cloud automation, distributed systems, asynchronous recovery, and delivery validation.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Reliability Evidence Map — Roger Clevenger">
+<meta property="og:description" content="Inspect the engineering decisions, controls, validation, and boundaries behind public SRE and DevOps work.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/resume/evidence.html">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/resume/evidence.html">
+<link rel="alternate" type="application/json" href="../data/profile.json" title="Machine-readable portfolio profile">
+<link rel="stylesheet" href="resume.css">
+<link rel="stylesheet" href="evidence.css">
+</head>
+<body>
+<a class="skip" href="#evidence-main">Skip to evidence map</a>
+<header class="screen-bar">
+  <a class="brand" href="../"><span class="brand-mark">RC</span><span>Portfolio</span></a>
+  <div class="screen-actions">
+    <a href="./">Résumé</a>
+    <a href="https://github.com/rclevenger-hm">GitHub</a>
+  </div>
+</header>
+
+<main id="evidence-main" class="evidence-shell">
+  <header class="evidence-hero">
+    <p class="eyebrow">Principal SRE · inspectable proof</p>
+    <h1>Reliability evidence map</h1>
+    <p class="summary">A résumé says what an engineer has done. This page shows how I reason about operating risk: identify the failure mode, add a bounded control, verify the behavior, and state what the system does not prove.</p>
+    <div class="evidence-actions">
+      <a href="./">Back to résumé</a>
+      <a href="../#work">Project portfolio</a>
+      <a href="../data/profile.json">Structured profile</a>
+    </div>
+  </header>
+
+  <section class="evidence-section" aria-labelledby="model-heading">
+    <div class="section-label"><span>01</span><h2 id="model-heading">Decision model</h2></div>
+    <div class="decision-path" aria-label="Reliability decision path">
+      <div><span>Failure mode</span><strong>What can go wrong?</strong><small>Name the ambiguity or blast radius first.</small></div>
+      <i aria-hidden="true">→</i>
+      <div><span>Control</span><strong>How is risk bounded?</strong><small>Prefer explicit limits and reversible steps.</small></div>
+      <i aria-hidden="true">→</i>
+      <div><span>Verification</span><strong>How do we know?</strong><small>Tests, telemetry, dry-runs, or failure exercises.</small></div>
+      <i aria-hidden="true">→</i>
+      <div><span>Boundary</span><strong>What remains unknown?</strong><small>Do not turn evidence into a larger claim.</small></div>
+    </div>
+  </section>
+
+  <section class="evidence-section" aria-labelledby="matrix-heading">
+    <div class="section-label"><span>02</span><h2 id="matrix-heading">Capability → evidence</h2></div>
+    <div class="capability-matrix" role="table" aria-label="Reliability capabilities mapped to public evidence">
+      <div class="matrix-row matrix-head" role="row">
+        <span role="columnheader">Capability</span><span role="columnheader">Public system</span><span role="columnheader">Inspect this</span>
+      </div>
+      <div class="matrix-row" role="row">
+        <strong role="cell">Safe automation</strong><span role="cell">OCI Ephemeral Resource Janitor</span><span role="cell">Dry-run default, explicit opt-in, action cap, fail-closed tag parsing, two-phase termination.</span>
+      </div>
+      <div class="matrix-row" role="row">
+        <strong role="cell">Distributed reliability</strong><span role="cell">Kafka on OCI</span><span role="cell">KRaft quorum, private networking, replica durability, recovery headroom, SLO-oriented alerting.</span>
+      </div>
+      <div class="matrix-row" role="row">
+        <strong role="cell">Async recovery</strong><span role="cell">Identity Document Async Pipeline</span><span role="cell">SQS/DLQ separation, persisted job status, throttled API entry, worker isolation, Terraform-managed resources.</span>
+      </div>
+      <div class="matrix-row" role="row">
+        <strong role="cell">Delivery assurance</strong><span role="cell">Sports Gamecast</span><span role="cell">Defensive parsing, state-aware refresh, mocked upstream data, browser smoke tests before Pages deployment.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="evidence-section" aria-labelledby="systems-heading">
+    <div class="section-label"><span>03</span><h2 id="systems-heading">Four systems, four operating problems</h2></div>
+    <div class="system-stack">
+      <article class="system-card">
+        <header><div><p class="system-type">OCI · destructive automation</p><h3>OCI Ephemeral Resource Janitor</h3></div><a href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Repository ↗</a></header>
+        <div class="system-grid">
+          <div><span>Failure mode</span><p>Cleanup logic can destroy the wrong resource or turn malformed policy into a destructive guess.</p></div>
+          <div><span>Control</span><p>Resources must opt in. Dry-run and stop are defaults. Termination requires a second interlock and normally a prior stopped state.</p></div>
+          <div><span>Verification</span><p>Structured decision reports plus tests for policy precedence, exclusions, malformed tags, action caps, and destructive-action interlocks.</p></div>
+          <div><span>Boundary</span><p>This is lifecycle-policy enforcement for explicitly managed ephemeral compute, not an idle-resource detector or general cost optimizer.</p></div>
+        </div>
+        <details><summary>Why this matters at principal level</summary><p>The important design choice is not the API call that stops an instance. It is the control system around the mutation: ownership, blast-radius limits, reversible stages, fail-closed parsing, and auditable decisions.</p></details>
+      </article>
+
+      <article class="system-card">
+        <header><div><p class="system-type">OCI · Kafka · distributed systems</p><h3>Kafka on OCI</h3></div><a href="https://github.com/rclevenger-hm/kafka-oci-deployment">Repository ↗</a></header>
+        <div class="system-grid">
+          <div><span>Failure mode</span><p>Broker count alone can look healthy while quorum, storage, DNS, recovery bandwidth, or replica placement make the cluster fragile.</p></div>
+          <div><span>Control</span><p>Private listeners, KRaft voting members, replication semantics, fault-domain placement, capacity headroom, and explicit administrative paths.</p></div>
+          <div><span>Verification</span><p>The runbook calls for broker, controller, disk, DNS, certificate, upgrade, and replica-rebuild failure exercises before production readiness.</p></div>
+          <div><span>Boundary</span><p>The repository is an architecture and operations scaffold. It does not present unfinished provisioning as production-ready automation.</p></div>
+        </div>
+        <details><summary>Why this matters at principal level</summary><p>Distributed reliability comes from treating quorum, networking, storage, client behavior, and recovery capacity as one failure envelope instead of separate infrastructure checklists.</p></details>
+      </article>
+
+      <article class="system-card">
+        <header><div><p class="system-type">AWS · serverless · queues</p><h3>Identity Document Async Pipeline</h3></div><a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda">Repository ↗</a></header>
+        <div class="system-grid">
+          <div><span>Failure mode</span><p>Longer-running screening tied to a synchronous request path creates brittle latency, retry, and throughput behavior.</p></div>
+          <div><span>Control</span><p>Accept work through API Gateway, persist the submission, enqueue it, process with a worker Lambda, and keep status in DynamoDB.</p></div>
+          <div><span>Verification</span><p>Unit tests mock S3/SQS interactions, a smoke path exercises the intake flow, and Terraform makes the infrastructure contract reviewable.</p></div>
+          <div><span>Boundary</span><p>The screening output is a plausibility signal. It is not legal proof of document authenticity.</p></div>
+        </div>
+        <details><summary>Why this matters at principal level</summary><p>The architectural value is separating acceptance from completion so retries, queue pressure, worker failure, and operational state can be reasoned about explicitly.</p></details>
+      </article>
+
+      <article class="system-card">
+        <header><div><p class="system-type">Browser runtime · CI/CD</p><h3>Sports Gamecast</h3></div><a href="https://github.com/rclevenger-hm/sports-gamecast">Repository ↗</a></header>
+        <div class="system-grid">
+          <div><span>Failure mode</span><p>An undocumented upstream sports feed can change shape or become unavailable while a live UI is polling it continuously.</p></div>
+          <div><span>Control</span><p>Keep the client dependency-light, parse defensively, show retry state, and change refresh cadence according to whether a game is live or final.</p></div>
+          <div><span>Verification</span><p>Headless Chromium tests run against mocked upstream data before GitHub Pages deployment and assert rendering without JavaScript errors.</p></div>
+          <div><span>Boundary</span><p>The upstream endpoints are unofficial and undocumented, so the project does not claim a supported production data contract.</p></div>
+        </div>
+        <details><summary>Why this matters at principal level</summary><p>Reliability work also applies to small systems: isolate uncertainty, make degraded behavior deliberate, and require deterministic validation before release.</p></details>
+      </article>
+    </div>
+  </section>
+
+  <section class="evidence-section operating-summary" aria-labelledby="summary-heading">
+    <div class="section-label"><span>04</span><h2 id="summary-heading">What the pattern says</h2></div>
+    <div>
+      <p>Across different stacks, the repeated engineering pattern is the same: make ownership explicit, reduce ambiguous state, cap the cost of a bad decision, expose the signals needed to recover, and keep the evidence boundary visible.</p>
+      <p class="boundary-note"><strong>Public evidence boundary:</strong> this page describes behavior visible in public repositories. It intentionally excludes employer-proprietary systems, private operational metrics, customer details, confidential architecture, and private code.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="resume-footer">
+  <span>Roger Clevenger · Principal Site Reliability Engineer</span>
+  <a href="./">Recruiter résumé</a>
+</footer>
+</body>
+</html>
