@@ -24,6 +24,7 @@
     {
       "name":"Sports Gamecast",
       "repository":"https://github.com/rclevenger-hm/sports-gamecast",
+      "caseStudy":"https://rclevenger-hm.github.io/portfolio/case-studies/sports-gamecast/",
       "signals":["browser reliability","CI/CD","defensive parsing","state-aware refresh","favorites","notifications","broadcast mapping","PWA"],
       "engineeringDecision":"Keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.",
       "boundary":"The current sports data dependency is undocumented and is not represented as a supported production contract."
