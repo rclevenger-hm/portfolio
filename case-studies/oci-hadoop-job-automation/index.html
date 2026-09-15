@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OCI Hadoop Job Automation — Reliability Case Study</title>
+<meta name="description" content="A principal-level SRE case study on bounded remote execution, SSH trust, ambiguous outcomes, retry safety, and the synchronous execution boundary for Hadoop automation on OCI.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/case-studies/oci-hadoop-job-automation/">
+<link rel="stylesheet" href="../case-study.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"OCI Hadoop Job Automation — Reliability Case Study","author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},"about":["Oracle Cloud Infrastructure","Hadoop","Site Reliability Engineering","SSH","Retry Safety","Operational Boundaries"],"url":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-hadoop-job-automation/"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to case study</a>
+<header class="case-nav"><a href="../../">RC / Portfolio</a><nav><a href="https://github.com/rclevenger-hm/oci-hadoop-job-automation">Repository</a></nav></header>
+<main id="main">
+<section class="case-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Reliability case study · OCI · Hadoop · remote execution</p>
+      <h1>The dangerous part of remote execution is not sending the command. It is knowing what happened afterward.</h1>
+      <p class="lede">OCI Hadoop Job Automation submits validated Hadoop commands from an OCI Function over SSH. The reliability problem is to keep trust, time, retries, and failure state explicit when the remote system can continue doing work after the caller loses certainty.</p>
+    </div>
+    <aside class="brief">
+      <span>Execution model</span><strong>Synchronous OCI Function → SSH → Hadoop</strong>
+      <span>Trust posture</span><strong>Unknown SSH hosts rejected</strong>
+      <span>Connection bound</span><strong>10-second setup timeouts</strong>
+      <span>Command bound</span><strong>30-second execution timeout</strong>
+      <span>Critical retry rule</span><strong>Timeout means unknown outcome</strong>
+    </aside>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">The operating problem</p><h2>A timeout is not proof that nothing happened.</h2></div>
+    <div class="prose">
+      <p>A serverless wrapper around SSH can look straightforward: validate input, connect, run Hadoop, return stdout. Operationally, the hard part begins when a connection drops or a command exceeds the caller's timeout. The function may have lost visibility while the remote process continued.</p>
+      <p>That makes retry policy part of the architecture. Blindly resubmitting an ambiguous request can duplicate work, overwrite output, or turn a transient network problem into an application-level incident.</p>
+      <p class="boundary"><strong>Boundary:</strong> the current implementation is intentionally synchronous and is suitable for short submission or management commands. It does not claim to provide a durable background-job control plane or real-time Hadoop status tracking.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section ink">
+  <div class="wrap">
+    <p class="eyebrow">Reliability controls</p>
+    <h2>Control uncertainty before adding automation.</h2>
+    <div class="guardrail-flow" aria-label="OCI Hadoop execution reliability controls">
+      <article><span>01</span><h3>Validate first</h3><p>Required request fields are checked before any SSH session or remote command is constructed.</p></article>
+      <article><span>02</span><h3>Constrain command shape</h3><p>Filesystem paths are shell-quoted and the Java job class is limited to an allowlisted character pattern.</p></article>
+      <article><span>03</span><h3>Verify host identity</h3><p>System known-hosts data is loaded and unknown SSH hosts are rejected rather than trusted automatically.</p></article>
+      <article><span>04</span><h3>Bound network waits</h3><p>Connection, banner, authentication, and remote command execution have explicit timeout ceilings.</p></article>
+      <article><span>05</span><h3>Propagate failure clearly</h3><p>Non-zero Hadoop exits and SSH/configuration failures return useful context rather than being flattened into generic success/failure.</p></article>
+      <article><span>06</span><h3>Refuse unsafe retry assumptions</h3><p>A remote-command timeout is treated as an unknown outcome until cluster state is checked.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap">
+    <header class="section-head"><div><p class="eyebrow dark">Failure model</p><h2>Triage by where certainty was lost.</h2></div><p>The runbook separates pre-execution failures from failures that occur after a remote process may have started. That distinction determines whether retry is corrective, pointless, or dangerous.</p></header>
+    <div class="decision-diagram" role="img" aria-label="Failure decision path from request validation to safe retry decision">
+      <div><small>Request</small><strong>Valid?</strong><em>No → correct input</em></div><b>→</b>
+      <div><small>Trust</small><strong>Host verified?</strong><em>No → investigate identity</em></div><b>→</b>
+      <div><small>Transport</small><strong>Connected?</strong><em>No → repair path/auth</em></div><b>→</b>
+      <div><small>Execution</small><strong>Exit observed?</strong><em>Yes → interpret result</em></div><b>→</b>
+      <div class="active"><small>Uncertain state</small><strong>Timeout / lost visibility</strong><em>check cluster before retry</em></div>
+    </div>
+    <div class="reason-grid">
+      <div><code>validation_error</code><span>fix request; do not retry unchanged</span></div>
+      <div><code>host_key_failure</code><span>verify target identity before trust changes</span></div>
+      <div><code>network_timeout</code><span>inspect VCN path, NSGs, and SSH listener</span></div>
+      <div><code>authentication_failure</code><span>restore intended key/user mapping</span></div>
+      <div><code>non_zero_exit</code><span>use Hadoop/YARN evidence before deliberate retry</span></div>
+      <div><code>execution_timeout</code><span>unknown outcome until cluster state is verified</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">Architecture boundary</p><h2>The safe next design is asynchronous, not a longer timeout.</h2></div>
+    <div class="principles">
+      <article><span>Submit</span><h3>Return a stable identifier</h3><p>Long-running work should be accepted and assigned an application or job identifier instead of holding the request open.</p></article>
+      <article><span>Persist</span><h3>Store explicit state</h3><p>Submission, running, terminal success, terminal failure, and unknown states should survive a function invocation.</p></article>
+      <article><span>Query</span><h3>Separate status from submission</h3><p>A status API removes the need to infer remote state from whether the original request connection survived.</p></article>
+      <article><span>Deduplicate</span><h3>Add idempotency before automatic retry</h3><p>Retry safety improves when duplicate submission can be detected instead of assumed away.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap evidence">
+    <div><p class="eyebrow dark">Inspectable evidence</p><h2>What a reviewer can verify.</h2></div>
+    <ul>
+      <li>Python request validation and safe command construction.</li>
+      <li>SSH host-key verification and bounded connection/authentication timeouts.</li>
+      <li>Remote command timeout behavior and non-zero exit propagation.</li>
+      <li>Unit tests covering shell metacharacter quoting, invalid job-class rejection, missing fields, and unsupported control characters.</li>
+      <li>An operations runbook covering failure modes, incident triage, retry guidance, observability recommendations, and the asynchronous evolution path.</li>
+    </ul>
+    <div class="actions"><a class="button" href="https://github.com/rclevenger-hm/oci-hadoop-job-automation">Inspect the repository</a><a href="../../">Return to portfolio</a></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">Roger Clevenger · Principal Site Reliability Engineer · Public engineering case study</div></footer>
+</body>
+</html>

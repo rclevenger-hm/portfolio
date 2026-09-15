@@ -51,6 +51,14 @@
       "signals":["KRaft","private networking","Terraform","capacity","quorum","observability","recovery planning"],
       "engineeringDecision":"Treat consensus, network topology, storage, recovery headroom, and operational signals as one distributed-systems reliability envelope.",
       "boundary":"The private OCI network foundation is executable Terraform; broker compute, Kafka configuration, and automated failure validation remain follow-up work."
+    },
+    {
+      "name":"OCI Hadoop Job Automation",
+      "repository":"https://github.com/rclevenger-hm/oci-hadoop-job-automation",
+      "caseStudy":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-hadoop-job-automation/",
+      "signals":["OCI Functions","Hadoop","SSH host-key verification","bounded execution","request validation","retry safety","incident triage"],
+      "engineeringDecision":"Treat remote execution timeouts as an observability and retry-safety problem: validate before connection, verify host identity, bound network waits, propagate remote failures, and refuse to equate lost visibility with a failed submission.",
+      "boundary":"The current implementation is synchronous and best suited to short submission or management commands; it is not a durable asynchronous job-control plane."
     }
   ]
 }
