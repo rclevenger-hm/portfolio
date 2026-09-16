@@ -35,6 +35,7 @@ Engineering systems: JavaScript, TypeScript, APIs, serverless systems, browser a
 
 ### Sports Gamecast
 Repository: https://github.com/rclevenger-hm/sports-gamecast
+Case study: https://rclevenger-hm.github.io/portfolio/case-studies/sports-gamecast/
 Signals: browser reliability, CI/CD, defensive parsing, state-aware refresh, favorites, notifications, broadcast mapping, PWA installability.
 Decision: keep the application static and dependency-light while using defensive runtime behavior and deterministic browser tests to control uncertainty in upstream sports data.
 Boundary: the current sports data dependency is undocumented and is not represented as a supported production contract.
