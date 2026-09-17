@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Engineering Case Studies — Roger Clevenger</title>
+<meta name="description" content="Public engineering case studies from Principal Site Reliability Engineer Roger Clevenger covering cloud automation, asynchronous AWS systems, Kafka reliability, Hadoop operations, and browser delivery.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Engineering Case Studies — Roger Clevenger">
+<meta property="og:description" content="Five public reliability case studies grounded in inspectable repositories and explicit engineering tradeoffs.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/case-studies/">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/case-studies/">
+<link rel="stylesheet" href="index.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"CollectionPage",
+  "name":"Roger Clevenger Engineering Case Studies",
+  "url":"https://rclevenger-hm.github.io/portfolio/case-studies/",
+  "author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},
+  "hasPart":[
+    {"@type":"TechArticle","name":"OCI Ephemeral Resource Janitor","url":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/"},
+    {"@type":"TechArticle","name":"AWS Async Intake","url":"https://rclevenger-hm.github.io/portfolio/projects/aws-async-intake/"},
+    {"@type":"TechArticle","name":"Kafka on OCI","url":"https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/"},
+    {"@type":"TechArticle","name":"OCI Hadoop Job Automation","url":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-hadoop-job-automation/"},
+    {"@type":"TechArticle","name":"Sports Gamecast","url":"https://rclevenger-hm.github.io/portfolio/case-studies/sports-gamecast/"}
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to case studies</a>
+<header class="site-nav">
+  <a class="brand" href="../">RC / Portfolio</a>
+  <nav aria-label="Case study navigation">
+    <a href="../resume/">Résumé</a>
+    <a href="../resume/evidence.html">Evidence map</a>
+    <a href="https://github.com/rclevenger-hm">GitHub</a>
+  </nav>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Engineering case studies</p>
+      <h1>The interesting part is what happens when the happy path ends.</h1>
+      <p class="lede">These are public projects where I wrote down the engineering decisions behind the implementation: what can fail, how the blast radius is bounded, what evidence exists, and where the design still needs work.</p>
+    </div>
+    <aside class="brief" aria-label="Case study themes">
+      <span>Cloud</span><strong>AWS · OCI</strong>
+      <span>Reliability</span><strong>Failure boundaries · recovery · observability</strong>
+      <span>Automation</span><strong>Terraform · Python · GitHub Actions</strong>
+      <span>Systems</span><strong>Kafka · Hadoop · queues · browser delivery</strong>
+    </aside>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap">
+    <header class="section-head">
+      <div><p class="eyebrow dark">Deep dives</p><h2>Five systems, five different reliability problems.</h2></div>
+      <p>Each page stays inside what can be verified from the public repository. Known gaps and design boundaries are called out instead of being hidden behind a polished architecture diagram.</p>
+    </header>
+
+    <div class="study-grid">
+      <article class="study-card">
+        <div class="study-meta"><span>OCI</span><span>Safe automation</span><span>Python</span></div>
+        <h3>OCI Ephemeral Resource Janitor</h3>
+        <p>Destructive automation should earn permission in layers. This project uses explicit ownership, protection tags, dry-run defaults, action caps, fail-closed policy parsing, and a two-phase stop-then-terminate path.</p>
+        <dl><div><dt>Failure question</dt><dd>How do you keep one bad cleanup assumption from becoming a broad outage?</dd></div><div><dt>Evidence</dt><dd>Policy engine, OCI action path, structured reasons, tests, and CI.</dd></div></dl>
+        <div class="study-actions"><a href="oci-ephemeral-resource-janitor/">Read case study</a><a href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Repository ↗</a></div>
+      </article>
+
+      <article class="study-card">
+        <div class="study-meta"><span>AWS</span><span>Async processing</span><span>Terraform</span></div>
+        <h3>Identity Document Screening Pipeline</h3>
+        <p>A reference pipeline that separates request acceptance from variable-latency processing with durable state, SQS retries, a dead-letter queue, status lookup, retention controls, and narrow execution roles.</p>
+        <dl><div><dt>Failure question</dt><dd>What stays recoverable when intake, queue handoff, or processing fails independently?</dd></div><div><dt>Evidence</dt><dd>Lambda/SQS/DynamoDB/S3 implementation, Terraform, explicit status fields, and failure analysis.</dd></div></dl>
+        <div class="study-actions"><a href="../projects/aws-async-intake/">Read case study</a><a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda">Repository ↗</a></div>
+      </article>
+
+      <article class="study-card">
+        <div class="study-meta"><span>OCI</span><span>Kafka</span><span>Distributed systems</span></div>
+        <h3>Kafka on OCI</h3>
+        <p>A reliability-oriented Kafka architecture where controller quorum, replication, private networking, capacity headroom, telemetry, and operator procedure are treated as one failure envelope.</p>
+        <dl><div><dt>Failure question</dt><dd>What still has to be true after losing a broker, controller, disk, network path, or fault domain?</dd></div><div><dt>Evidence</dt><dd>Reference topology, capacity model, alerting model, runbook, and failure scenarios.</dd></div></dl>
+        <div class="study-actions"><a href="../projects/kafka-oci/">Read case study</a><a href="https://github.com/rclevenger-hm/kafka-oci-deployment">Repository ↗</a></div>
+      </article>
+
+      <article class="study-card">
+        <div class="study-meta"><span>OCI</span><span>Hadoop</span><span>SSH</span></div>
+        <h3>OCI Hadoop Job Automation</h3>
+        <p>A small remote-execution service built around bounded waits, SSH host verification, safe command construction, explicit failure propagation, and one important rule: a timeout is an unknown outcome.</p>
+        <dl><div><dt>Failure question</dt><dd>When the caller loses visibility, how do you avoid turning uncertainty into duplicate remote work?</dd></div><div><dt>Evidence</dt><dd>Request validation, SSH controls, timeout behavior, unit tests, and an operations runbook.</dd></div></dl>
+        <div class="study-actions"><a href="oci-hadoop-job-automation/">Read case study</a><a href="https://github.com/rclevenger-hm/oci-hadoop-job-automation">Repository ↗</a></div>
+      </article>
+
+      <article class="study-card wide">
+        <div class="study-meta"><span>Browser</span><span>CI/CD</span><span>GitHub Pages</span></div>
+        <h3>Sports Gamecast</h3>
+        <p>A dependency-light live sports application that consumes an undocumented upstream feed. Reliability comes from defensive parsing, game-state-aware refresh, deterministic browser tests, PWA checks, and deployment gates rather than pretending the upstream interface is stable.</p>
+        <dl><div><dt>Failure question</dt><dd>How should a static product behave when its live data dependency is useful but not a supported production contract?</dd></div><div><dt>Evidence</dt><dd>Browser code, mocked Playwright tests, workflow gates, PWA validation, and generated broadcast-data checks.</dd></div></dl>
+        <div class="study-actions"><a href="sports-gamecast/">Read case study</a><a href="https://github.com/rclevenger-hm/sports-gamecast">Repository ↗</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="wrap evidence-strip">
+    <div><p class="eyebrow dark">A shorter review path</p><h2>Want the capability map instead?</h2></div>
+    <div><p>The reliability evidence map connects public systems to four recurring SRE concerns: safe automation, distributed reliability, asynchronous recovery, and delivery assurance.</p><a class="button" href="../resume/evidence.html">Open the reliability evidence map</a></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>Roger Clevenger · Principal Site Reliability Engineer</span><a href="../">Back to portfolio</a></div></footer>
+</body>
+</html>
