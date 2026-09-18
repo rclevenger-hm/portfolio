@@ -1,0 +1,30 @@
+name: Validate Architecture Atlas
+
+on:
+  pull_request:
+    paths:
+      - "architecture/**"
+      - "scripts/validate-architecture.mjs"
+      - ".github/workflows/architecture.yml"
+      - "README.md"
+  push:
+    branches:
+      - main
+    paths:
+      - "architecture/**"
+      - "scripts/validate-architecture.mjs"
+      - ".github/workflows/architecture.yml"
+      - "README.md"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate architecture page
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Validate architecture atlas
+        run: node scripts/validate-architecture.mjs
