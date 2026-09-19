@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Operations & Incident Response — Roger Clevenger</title>
+<meta name="description" content="Public SRE operations evidence from Roger Clevenger: alerting philosophy, incident triage, retry safety, recovery decisions, and observability grounded in inspectable AWS, OCI, Kafka, and Hadoop projects.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Operations & Incident Response — Roger Clevenger">
+<meta property="og:description" content="How I reason about signals, incidents, retries, recovery, and operational ambiguity using public engineering examples.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/operations/">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/operations/">
+<link rel="stylesheet" href="operations.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"TechArticle",
+  "headline":"Operations & Incident Response",
+  "url":"https://rclevenger-hm.github.io/portfolio/operations/",
+  "author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},
+  "about":["Site Reliability Engineering","Incident Response","Observability","AWS","Oracle Cloud Infrastructure","Kafka","Hadoop"]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to operations evidence</a>
+<header class="ops-nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../" aria-label="Roger Clevenger portfolio home"><span>RC</span><strong>Roger Clevenger</strong></a>
+    <nav aria-label="Operations page navigation">
+      <a href="../resume/evidence.html">Evidence map</a>
+      <a href="../resume/">Résumé</a>
+      <a href="https://github.com/rclevenger-hm">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="ops-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Operations · incident response · observability</p>
+      <h1>Start with the failure the operator can actually see.</h1>
+      <p class="lede">Dashboards are useful only when they shorten the path from symptom to decision. My operating model is to identify user impact, locate the failure boundary, preserve ambiguous state, and choose the least-destructive recovery action that restores confidence.</p>
+      <div class="hero-actions"><a class="button" href="#triage">Inspect the triage model</a><a class="text-link" href="../resume/evidence.html">Reliability evidence map →</a></div>
+    </div>
+    <aside class="ops-brief" aria-label="Operating principles">
+      <p class="brief-title">Four operating rules</p>
+      <ol>
+        <li><span>01</span><div><strong>Page on impact</strong><small>Urgency should follow availability, durability, or an expiring recovery window.</small></div></li>
+        <li><span>02</span><div><strong>Preserve uncertainty</strong><small>A timeout is not proof that work failed.</small></div></li>
+        <li><span>03</span><div><strong>Prefer reversible recovery</strong><small>Stop, isolate, drain, or replay before reaching for destructive actions.</small></div></li>
+        <li><span>04</span><div><strong>Leave evidence behind</strong><small>Logs, status, decision records, and runbooks should make the next response faster.</small></div></li>
+      </ol>
+    </aside>
+  </div>
+</section>
+
+<section class="signal-strip" aria-label="Signal hierarchy">
+  <div class="wrap signal-grid">
+    <div><span>1</span><strong>User impact</strong><small>availability · correctness · latency</small></div>
+    <div><span>2</span><strong>Service behavior</strong><small>errors · queue age · lag · saturation</small></div>
+    <div><span>3</span><strong>Dependency state</strong><small>quorum · network · auth · upstream</small></div>
+    <div><span>4</span><strong>Resource health</strong><small>disk · CPU · memory · runtime</small></div>
+  </div>
+</section>
+
+<section id="triage" class="section paper">
+  <div class="wrap">
+    <header class="section-head">
+      <div><p class="eyebrow dark">Incident triage</p><h2>Classify the ambiguity before choosing the recovery.</h2></div>
+      <p>Different failures can produce similar symptoms. The first useful question is usually not “which metric is red?” but “what do we know happened, and what state might still be in motion?”</p>
+    </header>
+
+    <div class="triage-grid">
+      <article class="triage-card">
+        <header><span>AWS · asynchronous work</span><h3>Queue age is rising</h3></header>
+        <dl>
+          <div><dt>Symptom</dt><dd>Oldest SQS message age remains above five minutes across two evaluation periods.</dd></div>
+          <div><dt>First checks</dt><dd>Worker Lambda errors, queue depth, recent deployment/configuration changes, and downstream processing health.</dd></div>
+          <div><dt>Recovery bias</dt><dd>Restore worker capacity or processing health before replaying anything. A DLQ message means normal retries were already exhausted.</dd></div>
+          <div><dt>Public evidence</dt><dd>The Terraform defines queue-age, worker-error, and DLQ alarms as separate operational signals.</dd></div>
+        </dl>
+        <a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda/blob/main/terraform/observability.tf">Inspect CloudWatch alarms ↗</a>
+      </article>
+
+      <article class="triage-card">
+        <header><span>OCI · Kafka</span><h3>Cluster health is degrading</h3></header>
+        <dl>
+          <div><dt>Symptom</dt><dd>Offline partitions, sustained under-replication, quorum instability, broker loss, or an approaching disk-exhaustion window.</dd></div>
+          <div><dt>First checks</dt><dd>Controller/quorum health, affected replicas, fault-domain concentration, disk/network headroom, client errors, and recovery throughput.</dd></div>
+          <div><dt>Recovery bias</dt><dd>Protect acknowledged-write durability first. Avoid moving more data until the cluster has enough recovery headroom to survive the intervention.</dd></div>
+          <div><dt>Public evidence</dt><dd>The reference architecture separates page-worthy availability/durability symptoms from lower-priority capacity signals.</dd></div>
+        </dl>
+        <a href="https://github.com/rclevenger-hm/kafka-oci-deployment">Inspect Kafka operations model ↗</a>
+      </article>
+
+      <article class="triage-card">
+        <header><span>OCI · Hadoop · SSH</span><h3>The remote command timed out</h3></header>
+        <dl>
+          <div><dt>Symptom</dt><dd>The function lost visibility before receiving a terminal remote exit status.</dd></div>
+          <div><dt>First checks</dt><dd>Determine whether failure occurred before SSH, during connection/authentication, or after command execution began; then correlate with Hadoop/YARN state.</dd></div>
+          <div><dt>Recovery bias</dt><dd>Do not automatically retry. The remote process may still be running, and the current interface has no idempotency key.</dd></div>
+          <div><dt>Public evidence</dt><dd>The runbook explicitly classifies a remote-command timeout as an <em>unknown outcome</em>.</dd></div>
+        </dl>
+        <a href="https://github.com/rclevenger-hm/oci-hadoop-job-automation/blob/main/docs/OPERATIONS.md">Inspect operations runbook ↗</a>
+      </article>
+
+      <article class="triage-card">
+        <header><span>OCI · lifecycle automation</span><h3>A cleanup decision looks wrong</h3></header>
+        <dl>
+          <div><dt>Symptom</dt><dd>A candidate resource appears eligible for mutation but the policy or ownership signal is incomplete or suspicious.</dd></div>
+          <div><dt>First checks</dt><dd>Management opt-in, protection policy, expiration source, action cap, dry-run output, and the structured reason trail.</dd></div>
+          <div><dt>Recovery bias</dt><dd>Fail closed. Preserve the resource and fix the policy signal rather than guessing that deletion is safe.</dd></div>
+          <div><dt>Public evidence</dt><dd>The janitor uses explicit ownership, reversible defaults, fail-closed parsing, and separate termination interlocks.</dd></div>
+        </dl>
+        <a href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor">Inspect lifecycle controls ↗</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section dark-section">
+  <div class="wrap">
+    <header class="section-head dark-head">
+      <div><p class="eyebrow">Alert design</p><h2>Not every useful metric deserves a page.</h2></div>
+      <p>Signals should map to an action and a response window. If an operator cannot say what changes because the alert fired now instead of tomorrow, it probably belongs in a dashboard or ticket.</p>
+    </header>
+
+    <div class="severity-table" role="table" aria-label="Operational signal severity model">
+      <div class="severity-row severity-head" role="row"><span role="columnheader">Class</span><span role="columnheader">Use when</span><span role="columnheader">Examples</span><span role="columnheader">Operator action</span></div>
+      <div class="severity-row" role="row"><strong role="cell">Page</strong><span role="cell">Availability, durability, or a recovery window is actively at risk.</span><span role="cell">Offline Kafka partitions; quorum instability; DLQ arrivals for critical work; sustained service failure.</span><span role="cell">Triage immediately, stabilize state, communicate impact.</span></div>
+      <div class="severity-row" role="row"><strong role="cell">Ticket</strong><span role="cell">A trend will become operationally unsafe if it continues, but no immediate outage exists.</span><span role="cell">Disk time-to-full entering the planning window; capacity imbalance; recurring non-urgent error class.</span><span role="cell">Schedule corrective work with an explicit deadline.</span></div>
+      <div class="severity-row" role="row"><strong role="cell">Observe</strong><span role="cell">The signal helps explain behavior but does not independently require action.</span><span role="cell">Throughput, normal GC variation, expected queue depth, replica movement during planned recovery.</span><span role="cell">Use for diagnosis, baselines, and post-change comparison.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="wrap recovery-layout">
+    <div>
+      <p class="eyebrow dark">Recovery decisions</p>
+      <h2>The retry decision is part of the incident.</h2>
+      <p class="section-copy">Retries are safe only when the operation is known not to have happened, or when repeating it is explicitly idempotent. Losing the response is not the same as losing the work.</p>
+    </div>
+    <div class="decision-list">
+      <details open><summary><span>Known pre-execution failure</span><strong>Correct, then retry</strong></summary><p>Validation, missing configuration, authentication, or host-identity failures should be fixed before repeating the operation.</p></details>
+      <details><summary><span>Known terminal failure</span><strong>Understand, then retry deliberately</strong></summary><p>A non-zero application exit can be safely reasoned about only after the underlying cause and side effects are understood.</p></details>
+      <details><summary><span>Unknown outcome</span><strong>Observe before retry</strong></summary><p>Timeouts after execution may create duplicate work. Check authoritative system state or a stable job identifier first.</p></details>
+      <details><summary><span>Destructive action</span><strong>Prefer a reversible stage</strong></summary><p>Stop, isolate, drain, quarantine, or dry-run before delete/terminate when the system allows it.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap evidence-layout">
+    <div><p class="eyebrow dark">Evidence boundary</p><h2>Public examples, not private incident history.</h2></div>
+    <div>
+      <p>This page demonstrates an operating approach using behavior and runbooks that can be inspected in public repositories. It intentionally does not expose employer incident details, private dashboards, customer information, internal SLO targets, confidential architecture, or proprietary metrics.</p>
+      <p>The strongest claim here is methodological: define failure states precisely, connect signals to operator decisions, preserve ambiguous outcomes, and make recovery behavior reviewable.</p>
+      <a class="button dark-button" href="../resume/evidence.html">Open the full reliability evidence map</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ops-footer">
+  <div class="wrap footer-inner"><div><strong>Roger Clevenger</strong><span>Principal Site Reliability Engineer</span></div><nav aria-label="Footer navigation"><a href="../">Portfolio</a><a href="../resume/">Résumé</a><a href="https://github.com/rclevenger-hm">GitHub</a></nav></div>
+</footer>
+</body>
+</html>
