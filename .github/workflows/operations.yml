@@ -1,0 +1,34 @@
+name: Validate Operations Evidence
+
+on:
+  pull_request:
+    paths:
+      - "operations/**"
+      - "resume/evidence.html"
+      - "scripts/validate-operations.mjs"
+      - ".github/workflows/operations.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "operations/**"
+      - "resume/evidence.html"
+      - "scripts/validate-operations.mjs"
+      - ".github/workflows/operations.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate operations page
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate operations evidence
+        run: node scripts/validate-operations.mjs
