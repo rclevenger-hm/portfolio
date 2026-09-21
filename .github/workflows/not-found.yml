@@ -1,0 +1,28 @@
+name: Validate Not Found Recovery
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '404.html'
+      - '404.css'
+      - 'scripts/check-not-found.mjs'
+      - '.github/workflows/not-found.yml'
+  push:
+    branches: [main]
+    paths:
+      - '404.html'
+      - '404.css'
+      - 'scripts/check-not-found.mjs'
+      - '.github/workflows/not-found.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-not-found.mjs
