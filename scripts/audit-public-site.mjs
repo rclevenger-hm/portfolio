@@ -3,6 +3,7 @@ import { dirname, join, normalize, relative, resolve, sep } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const siteBase = "https://rclevenger-hm.github.io/portfolio/";
+const sitePath = new URL(siteBase).pathname;
 const ignoredDirectories = new Set([".git", ".github", "_site", "analytics-worker", "node_modules", "scripts"]);
 const trackerPatterns = [
   /googletagmanager\.com/i,
@@ -74,6 +75,7 @@ function linkValue(source, relName) {
 function localAssetPath(htmlFile, href) {
   if (!href || /^(?:[a-z]+:)?\/\//i.test(href) || href.startsWith("data:") || href.startsWith("#")) return null;
   const clean = href.split(/[?#]/, 1)[0];
+  if (clean.startsWith(sitePath)) return normalize(resolve(root, clean.slice(sitePath.length)));
   return normalize(resolve(dirname(htmlFile), clean));
 }
 
