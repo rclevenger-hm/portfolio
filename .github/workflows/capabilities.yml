@@ -1,0 +1,38 @@
+name: Validate Capability Evidence Map
+
+on:
+  pull_request:
+    paths:
+      - "skills/**"
+      - "resume/index.html"
+      - "data/profile.json"
+      - "sitemap.xml"
+      - "llms.txt"
+      - "README.md"
+      - "scripts/validate-capabilities.mjs"
+      - ".github/workflows/capabilities.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "skills/**"
+      - "resume/index.html"
+      - "data/profile.json"
+      - "sitemap.xml"
+      - "llms.txt"
+      - "README.md"
+      - "scripts/validate-capabilities.mjs"
+      - ".github/workflows/capabilities.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate capability map
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Validate capability evidence map
+        run: node scripts/validate-capabilities.mjs

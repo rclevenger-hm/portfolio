@@ -2,6 +2,7 @@
 
 Canonical portfolio: https://rclevenger-hm.github.io/portfolio/
 Recruiter resume: https://rclevenger-hm.github.io/portfolio/resume/
+Capability evidence map: https://rclevenger-hm.github.io/portfolio/skills/
 Downloadable resume PDF: https://rclevenger-hm.github.io/portfolio/resume/Roger-Clevenger-Principal-SRE-Resume.pdf
 GitHub: https://github.com/rclevenger-hm
 Machine-readable JSON: https://rclevenger-hm.github.io/portfolio/data/profile.json
@@ -31,6 +32,8 @@ Delivery and automation: GitHub Actions, Jenkins, Docker, Packer, Ansible, Pytho
 Observability: Datadog, Grafana, CloudWatch, metrics, logs, alerting, operational dashboards.
 Distributed and data systems: Kafka, Hadoop, Databricks, Snowflake, OpenSearch.
 Engineering systems: JavaScript, TypeScript, APIs, serverless systems, browser applications, operational tooling.
+
+The capability evidence map labels claims as public implementation, public design, or career experience instead of using proficiency scores.
 
 ## Public engineering evidence
 

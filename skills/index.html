@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capability Evidence Map — Roger Clevenger · Principal SRE</title>
+<meta name="description" content="A principal-level SRE capability map connecting cloud, reliability, delivery, observability, and distributed systems skills to public engineering evidence.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Capability Evidence Map — Roger Clevenger · Principal SRE">
+<meta property="og:description" content="Tools are useful only in context. This map connects SRE capabilities to operating concerns, public systems, and explicit evidence boundaries.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/skills/">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/skills/">
+<link rel="stylesheet" href="skills.css">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ProfilePage",
+  "name":"Capability Evidence Map",
+  "url":"https://rclevenger-hm.github.io/portfolio/skills/",
+  "mainEntity":{
+    "@type":"Person",
+    "name":"Roger Clevenger",
+    "jobTitle":"Principal Site Reliability Engineer",
+    "url":"https://rclevenger-hm.github.io/portfolio/",
+    "sameAs":["https://github.com/rclevenger-hm"]
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to capability map</a>
+
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="../" aria-label="Return to portfolio"><span class="brand-mark">RC</span><span>Portfolio</span></a>
+    <nav aria-label="Capability map navigation">
+      <a href="../resume/">Résumé</a>
+      <a href="../case-studies/">Case studies</a>
+      <a href="../architecture/">Architecture</a>
+      <a href="../operations/">Operations</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <p class="eyebrow">Capability evidence map</p>
+        <h1>Skills in the context of operating systems.</h1>
+        <p class="lede">I do not find proficiency bars very useful. A better question is whether a tool or practice can be connected to a real engineering decision: what was built, what can fail, what signal exposes it, and how the system recovers.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#matrix">Review capability matrix</a>
+          <a class="button secondary" href="../resume/evidence.html">Reliability evidence</a>
+        </div>
+      </div>
+      <aside class="evidence-key" aria-labelledby="evidence-key-title">
+        <p class="card-label" id="evidence-key-title">Evidence levels</p>
+        <dl>
+          <div><dt><span class="level implementation">01</span> Public implementation</dt><dd>Working repository behavior that can be inspected directly.</dd></div>
+          <div><dt><span class="level design">02</span> Public design</dt><dd>Architecture or operations work with explicit implementation boundaries.</dd></div>
+          <div><dt><span class="level experience">03</span> Career experience</dt><dd>Professional tools or systems represented without exposing private implementation details.</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="lifecycle" aria-labelledby="lifecycle-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark">Operating lifecycle</p>
+          <h2 id="lifecycle-title">The toolchain follows the system, not the other way around.</h2>
+        </div>
+        <p>The same infrastructure is viewed differently when provisioning it, releasing into it, observing it, diagnosing it, and restoring it after failure.</p>
+      </div>
+
+      <ol class="lifecycle-flow" aria-label="System operating lifecycle">
+        <li>
+          <span>01</span>
+          <h3>Provision</h3>
+          <p>AWS · OCI · Terraform · IAM · networking</p>
+          <small>Repeatable infrastructure and explicit policy boundaries.</small>
+        </li>
+        <li>
+          <span>02</span>
+          <h3>Deliver</h3>
+          <p>GitHub Actions · Jenkins · Docker · Packer · Ansible</p>
+          <small>Reviewable changes, deterministic validation, controlled release.</small>
+        </li>
+        <li>
+          <span>03</span>
+          <h3>Observe</h3>
+          <p>CloudWatch · Datadog · Grafana · logs · metrics</p>
+          <small>Signals chosen for operator decisions, not dashboard density.</small>
+        </li>
+        <li>
+          <span>04</span>
+          <h3>Diagnose</h3>
+          <p>Incident response · runbooks · failure analysis</p>
+          <small>Follow state transitions and preserve ambiguous outcomes.</small>
+        </li>
+        <li>
+          <span>05</span>
+          <h3>Recover</h3>
+          <p>Retries · DLQ · quorum · capacity · rollback</p>
+          <small>Prefer bounded, reversible recovery over blind repetition.</small>
+        </li>
+        <li>
+          <span>06</span>
+          <h3>Improve</h3>
+          <p>Tests · post-incident learning · automation</p>
+          <small>Convert repeated operator knowledge into safer system behavior.</small>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="matrix" class="matrix-section" aria-labelledby="matrix-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark">Capability matrix</p>
+          <h2 id="matrix-title">What I use, and what it is for.</h2>
+        </div>
+        <p>Public evidence is linked where the behavior is inspectable. Career-only tools stay labeled as experience rather than being presented as public implementations.</p>
+      </div>
+
+      <div class="matrix-wrap" role="region" aria-label="Capability matrix" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Capability</th>
+              <th scope="col">Tools / systems</th>
+              <th scope="col">Operating concern</th>
+              <th scope="col">Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cloud & infrastructure</th>
+              <td>AWS · OCI · Terraform · networking · IAM · compute · storage</td>
+              <td>Repeatability, least privilege, network boundaries, lifecycle safety, blast-radius control.</td>
+              <td>
+                <a href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor"><span class="level implementation">01</span> OCI Janitor</a>
+                <a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda"><span class="level implementation">01</span> AWS async pipeline</a>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Reliability engineering</th>
+              <td>Incident response · SLO thinking · runbooks · failure analysis · capacity · retry safety</td>
+              <td>Make failure legible, preserve uncertain state, page on operator action, and design recovery before an incident.</td>
+              <td>
+                <a href="../operations/"><span class="level implementation">01</span> Operations evidence</a>
+                <a href="../resume/evidence.html"><span class="level implementation">01</span> Reliability map</a>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Distributed & data systems</th>
+              <td>Kafka · Hadoop · Databricks · Snowflake · OpenSearch</td>
+              <td>Quorum, replication, recovery headroom, remote execution, data-path visibility, failure-domain reasoning.</td>
+              <td>
+                <a href="https://github.com/rclevenger-hm/kafka-oci-deployment"><span class="level design">02</span> Kafka on OCI</a>
+                <a href="https://github.com/rclevenger-hm/oci-hadoop-job-automation"><span class="level implementation">01</span> Hadoop automation</a>
+                <span class="career-only"><span class="level experience">03</span> Databricks · Snowflake · OpenSearch</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Delivery & automation</th>
+              <td>GitHub Actions · Jenkins · Docker · Packer · Ansible · Python</td>
+              <td>Turn changes into deterministic, reviewable delivery with validation before deployment and safe defaults around destructive automation.</td>
+              <td>
+                <a href="https://github.com/rclevenger-hm/sports-gamecast"><span class="level implementation">01</span> Browser CI/CD</a>
+                <a href="https://github.com/rclevenger-hm/oci-ephemeral-resource-janitor"><span class="level implementation">01</span> Policy automation</a>
+                <span class="career-only"><span class="level experience">03</span> Jenkins · Packer · Ansible</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Observability</th>
+              <td>CloudWatch · Datadog · Grafana · metrics · logs · alerting · dashboards</td>
+              <td>Choose signals that narrow the operator decision: queue age, DLQ arrivals, quorum health, replica state, latency, saturation, and recovery pressure.</td>
+              <td>
+                <a href="../projects/aws-async-intake/"><span class="level implementation">01</span> AWS alarms</a>
+                <a href="../projects/kafka-oci/"><span class="level design">02</span> Kafka signals</a>
+                <span class="career-only"><span class="level experience">03</span> Datadog · Grafana</span>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Application & integration systems</th>
+              <td>Python · JavaScript · TypeScript · APIs · Lambda · SQS · DynamoDB · PWA</td>
+              <td>Design clean state transitions, asynchronous boundaries, defensive integrations, and testable behavior around external dependencies.</td>
+              <td>
+                <a href="https://github.com/rclevenger-hm/driver_license_authenticity_lambda"><span class="level implementation">01</span> Serverless pipeline</a>
+                <a href="https://github.com/rclevenger-hm/sports-gamecast"><span class="level implementation">01</span> Sports Gamecast</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="evidence-section" aria-labelledby="evidence-title">
+    <div class="shell">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow dark">Public proof points</p>
+          <h2 id="evidence-title">Four systems show most of the operating model.</h2>
+        </div>
+        <p>The point is not to claim that a few repositories reproduce an employer environment. They demonstrate how I reason about production concerns without exposing private systems.</p>
+      </div>
+
+      <div class="evidence-grid">
+        <article>
+          <div class="evidence-head"><span class="level implementation">01</span><span>Safe infrastructure automation</span></div>
+          <h3>OCI Ephemeral Resource Janitor</h3>
+          <p>Explicit opt-in lifecycle ownership, dry-run defaults, action caps, protection tags, fail-closed parsing, and a separate termination interlock.</p>
+          <a href="../case-studies/oci-ephemeral-resource-janitor/">Read case study <span aria-hidden="true">→</span></a>
+        </article>
+        <article>
+          <div class="evidence-head"><span class="level implementation">01</span><span>Asynchronous recovery</span></div>
+          <h3>AWS intake pipeline</h3>
+          <p>Request acceptance is separated from processing with SQS, durable state, a DLQ, status tracking, alarms, and explicit hardening gaps.</p>
+          <a href="../projects/aws-async-intake/">Read case study <span aria-hidden="true">→</span></a>
+        </article>
+        <article>
+          <div class="evidence-head"><span class="level design">02</span><span>Distributed reliability</span></div>
+          <h3>Kafka on OCI</h3>
+          <p>Private networking, KRaft quorum, replication, capacity, recovery headroom, observability, and failure testing are treated as one reliability envelope.</p>
+          <a href="../projects/kafka-oci/">Read case study <span aria-hidden="true">→</span></a>
+        </article>
+        <article>
+          <div class="evidence-head"><span class="level implementation">01</span><span>Dependency uncertainty</span></div>
+          <h3>Sports Gamecast</h3>
+          <p>A dependency-light browser application uses defensive parsing, state-aware refresh, mocked browser tests, and deployment gating around an undocumented upstream feed.</p>
+          <a href="../case-studies/sports-gamecast/">Read case study <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <aside class="scope-note">
+    <div class="shell">
+      <strong>Evidence boundary.</strong>
+      <p>This page distinguishes public implementation, public design, and career experience on purpose. It does not expose employer-proprietary code, customer systems, internal metrics, private repositories, or confidential architecture.</p>
+    </div>
+  </aside>
+</main>
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <span>Roger Clevenger · Principal Site Reliability Engineer</span>
+    <nav aria-label="Footer navigation">
+      <a href="../resume/">Résumé</a>
+      <a href="../case-studies/">Case studies</a>
+      <a href="../architecture/">Architecture</a>
+      <a href="../operations/">Operations</a>
+      <a href="https://github.com/rclevenger-hm">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
