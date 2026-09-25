@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Threatline — Operations Context Case Study</title>
+<meta name="description" content="A Principal SRE case study on Threatline: local-first operational context, provider isolation, observability correlation, bounded investigations, and explicit mutation boundaries.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#071018">
+<meta property="og:title" content="Threatline — Operations Context Case Study">
+<meta property="og:description" content="Operational context without a hidden control plane: provider isolation, explicit writes, bounded telemetry, durable evidence reviews, and release gates.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/case-studies/threatline/">
+<link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/case-studies/threatline/">
+<link rel="stylesheet" href="../case-study.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Threatline — Operations Context Case Study","author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},"about":["Site Reliability Engineering","Operational Tooling","Observability","Incident Response","Provider Isolation","OpenTelemetry","Amazon CloudWatch"],"url":"https://rclevenger-hm.github.io/portfolio/case-studies/threatline/"}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to case study</a>
+<header class="case-nav"><a href="../../">RC / Portfolio</a><nav><a href="../">All case studies</a> · <a href="https://github.com/rclevenger-hm/threatline">Repository</a></nav></header>
+<main id="main">
+<section class="case-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Operations case study · SRE tooling · observability</p>
+      <h1>Correlate operational context without creating another hidden control plane.</h1>
+      <p class="lede">Threatline is a local-first engineering operations workspace that connects work items, source changes, alerts, telemetry, runbooks, decisions, notes, and handoffs. The design question is not how many systems it can integrate. It is how to combine them without letting one provider failure, one credential boundary, or one ambiguous investigation result contaminate the rest of the operating workflow.</p>
+    </div>
+    <aside class="brief">
+      <span>System intent</span><strong>Shared operational context for engineers</strong>
+      <span>Runtime boundary</span><strong>Single-user · local-first · loopback by default</strong>
+      <span>Provider model</span><strong>Capability-aware adapters with isolated health</strong>
+      <span>Write posture</span><strong>External mutations are explicit and user initiated</strong>
+      <span>Evidence posture</span><strong>Deterministic review · gaps remain visible</strong>
+    </aside>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">The operating problem</p><h2>Incidents rarely live in one system.</h2></div>
+    <div class="prose">
+      <p>Operational truth is usually fragmented across a work tracker, source control, monitoring tools, runbooks, local notes, and whatever an engineer remembers from the last handoff. The useful question is not “which dashboard has the answer?” It is “what changed, what is failing, who owns it, what evidence applies, and what should the next operator know?”</p>
+      <p>Threatline treats those systems as providers of context rather than replacing them as systems of record. External data is normalized behind provider boundaries, correlated around services and work, and surfaced through Today, Queue, Investigation, Daily Notes, and Handoff views.</p>
+      <p class="boundary"><strong>Boundary:</strong> the current application is not a hardened multi-user Internet service, a hosted telemetry platform, or an autonomous remediation system. Its default trust boundary is a single trusted workstation user.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section ink">
+  <div class="wrap">
+    <p class="eyebrow">Runtime architecture</p>
+    <h2>Normalize at the edge. Keep the core vendor-neutral.</h2>
+    <div class="decision-diagram" role="img" aria-label="Threatline provider architecture from external systems through adapters to normalized operational context and explicit actions">
+      <div><small>Sources</small><strong>Jira · GitHub · observability</strong><em>systems of record stay external</em></div><b>→</b>
+      <div><small>Boundary</small><strong>Capability-aware providers</strong><em>health and failures isolated per adapter</em></div><b>→</b>
+      <div><small>Core</small><strong>Normalized context</strong><em>services · work · alerts · changes · runbooks</em></div><b>→</b>
+      <div><small>Operator</small><strong>Today · Queue · Investigation</strong><em>deterministic attention and evidence views</em></div><b>→</b>
+      <div class="active"><small>Mutation</small><strong>Explicit action or handoff</strong><em>reads do not silently become writes</em></div>
+    </div>
+    <div class="guardrail-flow" aria-label="Threatline reliability controls">
+      <article><span>01</span><h3>Provider isolation</h3><p>Each adapter reports health independently so a broken upstream integration does not erase context from healthy systems.</p></article>
+      <article><span>02</span><h3>Capability discovery</h3><p>The product asks what a provider can actually do instead of inferring behavior from a vendor name.</p></article>
+      <article><span>03</span><h3>Explicit writes</h3><p>Supported external mutations remain user initiated and are separated from read and correlation paths.</p></article>
+      <article><span>04</span><h3>Credential boundary</h3><p>Stored provider credentials remain server-side, separate from normal workspace configuration and browser persistence.</p></article>
+      <article><span>05</span><h3>Bounded telemetry</h3><p>OpenTelemetry ingestion limits body size, retained records, retention windows, and per-read result counts instead of becoming an unbounded local data lake.</p></article>
+      <article><span>06</span><h3>Diagnostic redaction</h3><p>Support diagnostics exclude stored secret structures and redact known or credential-shaped fields before sharing.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">Observability integration</p><h2>Useful context without pretending every signal means the same thing.</h2></div>
+    <div class="prose">
+      <p>Grafana is deliberately link-first. Zabbix active problems and CloudWatch alarms can normalize into alert context. OpenTelemetry adds authenticated OTLP/HTTP traces, metrics, and logs with bounded local retention and service correlation.</p>
+      <p>The boundaries matter. CloudWatch is read-only and relies on the standard AWS credential chain rather than persisting access keys. OpenTelemetry summaries remain provider-local instead of leaking vendor payloads into the core domain. Telemetry errors are recent evidence; they are not automatically promoted into authoritative incident state.</p>
+      <p>That distinction lets the system correlate evidence while still preserving uncertainty.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="wrap split">
+    <div><p class="eyebrow dark">Investigation semantics</p><h2>Evidence review is not root-cause theater.</h2></div>
+    <div class="principles">
+      <article><span>Bound</span><h3>Put ceilings on collection</h3><p>Provider collections, evidence records, persisted payload size, investigation windows, history count, and retention all have explicit limits.</p></article>
+      <article><span>Preserve</span><h3>Save what was actually reviewed</h3><p>Investigation runs persist workspace-scoped evidence snapshots so reopening a run shows the captured evidence, not whatever providers return today.</p></article>
+      <article><span>Expose</span><h3>Keep gaps visible</h3><p>Unavailable providers, clipped evidence, missing service mappings, and bounded collection are reported as limitations instead of being smoothed over.</p></article>
+      <article><span>Refuse</span><h3>Do not invent certainty</h3><p>The current evidence engine performs deterministic review only. Completion means the review ran without recorded gaps; it does not mean an incident recovered or root cause was established.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap">
+    <header class="section-head">
+      <div><p class="eyebrow dark">Release engineering</p><h2>Make the product loop reproducible before making it larger.</h2></div>
+      <p>The release gate is designed around the operating path a new user actually depends on, not just unit-test count.</p>
+    </header>
+    <div class="reason-grid">
+      <div><code>cross-platform</code><span>Python regression coverage on Linux, macOS, and Windows</span></div>
+      <div><code>fresh-install</code><span>build a wheel, install it in isolation, start with empty configuration, verify health and usable demo data</span></div>
+      <div><code>container-path</code><span>validate Docker Compose configuration and build the image</span></div>
+      <div><code>zero-credential</code><span>exercise the demo provider and first-run setup without requiring external accounts</span></div>
+      <div><code>performance</code><span>rank 10,000 representative work items inside a documented regression budget</span></div>
+      <div><code>release-integrity</code><span>keep package version, runtime version, changelog, and release notes consistent</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section ink">
+  <div class="wrap split">
+    <div><p class="eyebrow">Design boundaries</p><h2>The roadmap is not the shipped product.</h2></div>
+    <div class="prose">
+      <p>Threatline documents stable seams for more providers, richer investigations, enterprise identity, remote operation, and remediation without representing those seams as existing capabilities.</p>
+      <p>The current public implementation intentionally keeps several lines bright: local-first rather than multi-tenant hosting; provider health rather than global success/failure; normalized context rather than vendor payloads in the core; evidence review rather than autonomous diagnosis; explicit mutation rather than background control.</p>
+      <p>Those boundaries are part of the architecture, not disclaimers added after the fact.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section paper">
+  <div class="wrap evidence">
+    <div><p class="eyebrow dark">Inspectable evidence</p><h2>What a reviewer can verify.</h2></div>
+    <ul>
+      <li>Organization-neutral operational domain objects and provider capability contracts.</li>
+      <li>Independent provider health behavior and failure isolation.</li>
+      <li>Jira and source-control context plus Grafana, Zabbix, CloudWatch, and OpenTelemetry integrations.</li>
+      <li>Workspace configuration and separate credential storage with diagnostic redaction.</li>
+      <li>Bounded investigation runs with durable evidence snapshots and explicit gaps.</li>
+      <li>Linux, macOS, Windows, fresh-install, Docker, performance, and release-consistency validation.</li>
+      <li>Documented security, observability, investigation, provider, architecture, and release boundaries.</li>
+    </ul>
+    <div class="actions"><a class="button" href="https://github.com/rclevenger-hm/threatline">Inspect the repository</a><a href="https://rclevenger-hm.github.io/threatline/">Open product site</a><a href="../">All case studies</a><a href="../../">Portfolio</a></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">Roger Clevenger · Principal Site Reliability Engineer · Public engineering case study</div></footer>
+</body>
+</html>
