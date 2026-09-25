@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Engineering Case Studies — Roger Clevenger</title>
-<meta name="description" content="Engineering case studies from Principal SRE Roger Clevenger covering AWS async systems, OCI automation, Kafka reliability, Hadoop operations, and browser delivery.">
+<meta name="description" content="Engineering case studies from Principal SRE Roger Clevenger covering operational tooling, cloud automation, distributed systems, recovery, and delivery reliability.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#071018">
 <meta property="og:title" content="Engineering Case Studies — Roger Clevenger">
-<meta property="og:description" content="Five public reliability case studies grounded in inspectable repositories and explicit engineering tradeoffs.">
+<meta property="og:description" content="Six public reliability case studies grounded in inspectable repositories and explicit engineering tradeoffs.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://rclevenger-hm.github.io/portfolio/case-studies/">
 <link rel="canonical" href="https://rclevenger-hm.github.io/portfolio/case-studies/">
@@ -21,6 +21,7 @@
   "url":"https://rclevenger-hm.github.io/portfolio/case-studies/",
   "author":{"@type":"Person","name":"Roger Clevenger","jobTitle":"Principal Site Reliability Engineer"},
   "hasPart":[
+    {"@type":"TechArticle","name":"Threatline","url":"https://rclevenger-hm.github.io/portfolio/case-studies/threatline/"},
     {"@type":"TechArticle","name":"OCI Ephemeral Resource Janitor","url":"https://rclevenger-hm.github.io/portfolio/case-studies/oci-ephemeral-resource-janitor/"},
     {"@type":"TechArticle","name":"AWS Async Intake","url":"https://rclevenger-hm.github.io/portfolio/projects/aws-async-intake/"},
     {"@type":"TechArticle","name":"Kafka on OCI","url":"https://rclevenger-hm.github.io/portfolio/projects/kafka-oci/"},
@@ -52,7 +53,7 @@
       <span>Cloud</span><strong>AWS · OCI</strong>
       <span>Reliability</span><strong>Failure boundaries · recovery · observability</strong>
       <span>Automation</span><strong>Terraform · Python · GitHub Actions</strong>
-      <span>Systems</span><strong>Kafka · Hadoop · queues · browser delivery</strong>
+      <span>Systems</span><strong>Operational context · Kafka · Hadoop · queues</strong>
     </aside>
   </div>
 </section>
@@ -60,11 +61,19 @@
 <section class="section paper">
   <div class="wrap">
     <header class="section-head">
-      <div><p class="eyebrow dark">Deep dives</p><h2>Five systems, five different reliability problems.</h2></div>
+      <div><p class="eyebrow dark">Deep dives</p><h2>Six systems, six different reliability problems.</h2></div>
       <p>Each page stays inside what can be verified from the public repository. Known gaps and design boundaries are called out instead of being hidden behind a polished architecture diagram.</p>
     </header>
 
     <div class="study-grid">
+      <article class="study-card wide">
+        <div class="study-meta"><span>SRE tooling</span><span>Observability</span><span>Incident context</span></div>
+        <h3>Threatline</h3>
+        <p>A local-first engineering operations workspace that normalizes work, source changes, alerts, telemetry, runbooks, investigations, and handoffs behind capability-aware provider boundaries.</p>
+        <dl><div><dt>Failure question</dt><dd>How do you correlate operational context without letting one provider failure, credential boundary, or ambiguous investigation result contaminate the rest of the workflow?</dd></div><div><dt>Evidence</dt><dd>Provider contracts, isolated health, CloudWatch and OpenTelemetry integration, bounded investigations, security boundaries, and cross-platform release gates.</dd></div></dl>
+        <div class="study-actions"><a href="threatline/">Read case study</a><a href="https://github.com/rclevenger-hm/threatline">Repository ↗</a></div>
+      </article>
+
       <article class="study-card">
         <div class="study-meta"><span>OCI</span><span>Safe automation</span><span>Python</span></div>
         <h3>OCI Ephemeral Resource Janitor</h3>
