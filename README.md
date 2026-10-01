@@ -22,11 +22,15 @@ Open `http://localhost:8000`.
 
 ```bash
 node scripts/validate.mjs
+node scripts/validate-resume-release.mjs
+node scripts/check-local-links.mjs
+node scripts/audit-public-site.mjs
 node scripts/validate-capabilities.mjs
 node scripts/validate-architecture.mjs
+node scripts/validate-operations.mjs
 ```
 
-The site validates required accessibility hooks and small HTML/CSS performance budgets. The capability map additionally verifies evidence labeling, discovery links, and public repository grounding. The architecture atlas has a dependency-light validation check for accessible diagrams and public evidence links.
+The local validation commands mirror the primary CI gates: structural and résumé checks, local-link integrity, public-page accessibility/SEO/privacy/performance auditing, capability evidence, architecture evidence, and operations evidence. The capability map additionally verifies evidence labeling, discovery links, and public repository grounding. The architecture atlas has a dependency-light validation check for accessible diagrams and public evidence links.
 
 ## Deployment
 
