@@ -1,9 +1,11 @@
+import { validateHomepageStructure } from "./validate-homepage-structure.mjs";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 const root=resolve(import.meta.dirname,".."); let bad=false;
 const required=["index.html","styles.css","experience.css","resume/index.html","resume/resume.css","data/profile.json","llms.txt","sitemap.xml","case-studies/case-study.css","case-studies/sports-gamecast/index.html","case-studies/oci-ephemeral-resource-janitor/index.html","case-studies/oci-hadoop-job-automation/index.html","admin/github/index.html","admin/github/app.js","admin/github/analytics.css","analytics-worker/index.js","analytics-worker/schema.sql","analytics-worker/wrangler.toml"];
 for(const f of required) if(!existsSync(resolve(root,f))){console.error("missing",f);bad=true;}
 const html=readFileSync(resolve(root,"index.html"),"utf8");
+for (const error of validateHomepageStructure(html)) { console.error("index structure:", error); bad = true; }
 const css=readFileSync(resolve(root,"styles.css"),"utf8");
 const experienceCss=readFileSync(resolve(root,"experience.css"),"utf8");
 const resume=readFileSync(resolve(root,"resume/index.html"),"utf8");
